@@ -58,19 +58,19 @@ export default function ProjectForm({ projectId, onSuccess, onCancel }: ProjectF
 
     try {
       if (projectId) {
-        const { error } = await supabase
+        const { error } = await (supabase
           .from('projects')
           .update({
             name,
             area_id: areaId || null,
             company_id: companyId,
             status,
-          } as any)
-          .eq('id', projectId)
+          } as never)
+          .eq('id', projectId) as any)
 
         if (error) throw error
       } else {
-        const { error } = await supabase
+        const { error } = await (supabase
           .from('projects')
           .insert([
             {
@@ -78,8 +78,8 @@ export default function ProjectForm({ projectId, onSuccess, onCancel }: ProjectF
               area_id: areaId || null,
               company_id: companyId,
               status,
-            } as any,
-          ])
+            },
+          ] as never) as any)
 
         if (error) throw error
       }

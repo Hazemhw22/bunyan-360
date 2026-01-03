@@ -52,7 +52,7 @@ export default function ProjectGrid() {
             .select('id')
             .eq('project_id', project.id)
 
-          const buildingIds = buildings?.map(b => b.id) || []
+          const buildingIds = (buildings as { id: string }[])?.map(b => b.id) || []
           
           let totalValue = 0
           if (buildingIds.length > 0) {
@@ -61,7 +61,7 @@ export default function ProjectGrid() {
               .select('unit_price, quantity')
               .in('building_id', buildingIds)
 
-            totalValue = (services || []).reduce((sum, s) => sum + (s.unit_price * s.quantity), 0)
+            totalValue = ((services as { unit_price: number; quantity: number }[]) || []).reduce((sum, s) => sum + (s.unit_price * s.quantity), 0)
           }
 
           return {

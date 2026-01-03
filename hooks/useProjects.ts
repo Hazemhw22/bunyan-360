@@ -30,8 +30,9 @@ export function useProjects() {
       if (projectsError) throw projectsError
 
       // Fetch related areas and companies
-      const areaIds = [...new Set(projectsData?.map(p => p.area_id).filter(Boolean) || [])]
-      const companyIds = [...new Set(projectsData?.map(p => p.company_id) || [])]
+      const projectsDataTyped = projectsData as { area_id: string | null; company_id: string }[]
+      const areaIds = Array.from(new Set(projectsDataTyped?.map(p => p.area_id).filter(Boolean) || []))
+      const companyIds = Array.from(new Set(projectsDataTyped?.map(p => p.company_id) || []))
 
       const [areasResult, companiesResult] = await Promise.all([
         areaIds.length > 0
@@ -45,11 +46,14 @@ export function useProjects() {
       if (areasResult.error) throw areasResult.error
       if (companiesResult.error) throw companiesResult.error
 
-      const areasMap = new Map(areasResult.data?.map(a => [a.id, a]) || [])
-      const companiesMap = new Map(companiesResult.data?.map(c => [c.id, c]) || [])
+      const areasData = areasResult.data as Area[]
+      const companiesData = companiesResult.data as Company[]
+      
+      const areasMap = new Map(areasData?.map(a => [a.id, a]) || [])
+      const companiesMap = new Map(companiesData?.map(c => [c.id, c]) || [])
 
-      const projectsWithRelations: ProjectWithRelations[] = (projectsData || []).map(project => ({
-        ...project,
+      const projectsWithRelations: ProjectWithRelations[] = (projectsDataTyped || []).map(project => ({
+        ...(project as Project),
         area: project.area_id ? areasMap.get(project.area_id) || null : null,
         company: companiesMap.get(project.company_id) || null,
       }))
