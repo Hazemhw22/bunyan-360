@@ -14,6 +14,7 @@ import {
   Settings,
   ChevronRight,
   ChevronLeft,
+  X,
 } from 'lucide-react'
 import ProjectLogo from './ProjectLogo'
 
@@ -33,11 +34,21 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   useEffect(() => {
-    // Load sidebar state from localStorage
-    const savedState = localStorage.getItem('sidebarCollapsed')
-    if (savedState === 'true') {
-      setIsCollapsed(true)
+    // On mobile, always start collapsed and hidden
+    const checkMobile = () => {
+      if (window.innerWidth < 1024) {
+        setIsCollapsed(true)
+      } else {
+        // On desktop, load sidebar state from localStorage
+        const savedState = localStorage.getItem('sidebarCollapsed')
+        if (savedState === 'true') {
+          setIsCollapsed(true)
+        }
+      }
     }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   const toggleSidebar = () => {
@@ -47,37 +58,40 @@ export default function Sidebar() {
   }
 
   return (
-    <div
-      className={`bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ${
-        isCollapsed ? 'w-20' : 'w-64'
-      }`}
-    >
-      {/* Header with Logo and Toggle Button */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between">
-          <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center w-full' : ''}`}>
-            <ProjectLogo />
-            {!isCollapsed && (
-              <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200">بنيان 360</h1>
-            )}
+    <>
+      <div
+        className={`hidden lg:flex bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 min-h-screen flex-col border-r border-gray-200 dark:border-gray-700 transition-all duration-300 static z-50 ${
+          isCollapsed ? 'w-20' : 'w-64'
+        }`}
+      >
+        {/* Header with Logo and Toggle Button */}
+        <div className="p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between">
+            <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center w-full' : ''}`}>
+              <ProjectLogo />
+              {!isCollapsed && (
+                <h1 className="text-lg lg:text-xl font-bold text-gray-800 dark:text-gray-200">بنيان 360</h1>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={toggleSidebar}
+                className="hidden lg:block p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                title={isCollapsed ? 'فتح القائمة' : 'إغلاق القائمة'}
+              >
+                {isCollapsed ? (
+                  <ChevronLeft size={20} className="text-gray-600 dark:text-gray-400" />
+                ) : (
+                  <ChevronRight size={20} className="text-gray-600 dark:text-gray-400" />
+                )}
+              </button>
+            </div>
           </div>
-          <button
-            onClick={toggleSidebar}
-            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            title={isCollapsed ? 'فتح القائمة' : 'إغلاق القائمة'}
-          >
-            {isCollapsed ? (
-              <ChevronLeft size={20} className="text-gray-600 dark:text-gray-400" />
-            ) : (
-              <ChevronRight size={20} className="text-gray-600 dark:text-gray-400" />
-            )}
-          </button>
         </div>
-      </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 p-4">
-        <ul className="space-y-3">
+      <nav className="flex-1 p-3 lg:p-4 overflow-y-auto">
+        <ul className="space-y-2 lg:space-y-3">
           {menuItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
@@ -105,7 +119,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Settings Link */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
+      <div className="p-3 lg:p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
         <Link
           href="/settings"
           className={`flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors ${
@@ -117,7 +131,8 @@ export default function Sidebar() {
           {!isCollapsed && <span>الإعدادات</span>}
         </Link>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
 

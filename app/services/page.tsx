@@ -107,10 +107,10 @@ export default function ServicesPage() {
   if (showForm) {
     return (
       <div className="max-w-2xl">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 text-gray-900 dark:text-gray-100">
           {editingServiceId ? 'تعديل الخدمة' : 'إضافة خدمة جديدة'}
         </h1>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <ServiceForm
             serviceId={editingServiceId}
             onSuccess={handleFormSuccess}
@@ -127,20 +127,20 @@ export default function ServicesPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة الخدمات</h1>
-        <p className="text-gray-700 dark:text-gray-400">تسعير الخدمات والأعمال داخل البنايات</p>
+      <div className="mb-4 lg:mb-6">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة الخدمات</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">تسعير الخدمات والأعمال داخل البنايات</p>
       </div>
 
-      <div className="flex justify-between items-center mb-6">
-        <Button onClick={() => setShowForm(true)}>
-          <Plus size={20} className="ml-2" />
-          إضافة خدمة
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 sm:gap-3 mb-4 lg:mb-6">
+        <Button onClick={() => setShowForm(true)} className="w-full sm:w-auto justify-center sm:justify-start">
+          <Plus size={14} className="ml-1 sm:ml-1.5" />
+          <span className="text-xs">إضافة خدمة</span>
         </Button>
         <select
           value={selectedBuilding}
           onChange={(e) => setSelectedBuilding(e.target.value)}
-          className="px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-2.5 py-1.5 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
         >
           <option value="all">جميع البنايات</option>
           {buildings.map((building) => (
@@ -152,31 +152,20 @@ export default function ServicesPage() {
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-700">
+        <div className="overflow-x-auto custom-scrollbar">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                #
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 الخدمة
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                البناية
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                سعر الوحدة
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                الكمية
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="hidden sm:table-cell px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 الإجمالي
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 نسبة الإنجاز
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 الإجراءات
               </th>
             </tr>
@@ -184,76 +173,53 @@ export default function ServicesPage() {
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {services.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-6 py-4 text-center text-gray-600 dark:text-gray-400">
+                <td colSpan={4} className="px-3 lg:px-6 py-3 text-center text-gray-600 dark:text-gray-400">
                   لا توجد خدمات
                 </td>
               </tr>
             ) : (
-              services.map((service, index) => {
+              services.map((service) => {
                 const total = service.unit_price * service.quantity
                 return (
                   <tr key={service.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
-                      {index + 1}
-                    </td>
-                    <td className="px-6 py-4 text-sm">
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-400 dark:text-gray-500">🔧</span>
-                        <div>
-                          <div className="font-medium text-gray-900 dark:text-gray-100">{service.description}</div>
-                          <div className="text-gray-600 dark:text-gray-500 text-xs">مقطوعية</div>
-                        </div>
+                    <td className="px-3 lg:px-6 py-3 text-sm">
+                      <div className="font-medium text-gray-900 dark:text-gray-100">{service.description}</div>
+                      <div className="text-gray-600 dark:text-gray-500 text-xs">مقطوعية</div>
+                      <div className="hidden sm:block mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        {formatCurrency(total, 'ILS')}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm">
-                      <div>
-                        <div className="font-medium text-gray-900 dark:text-gray-100">
-                          {service.building?.building_code === 'الرئيسية'
-                            ? 'البناية الرئيسية'
-                            : `البناية ${service.building?.building_code}`}
-                        </div>
-                        <div className="text-gray-600 dark:text-gray-500 text-xs">
-                          {service.building?.project?.name || '-'}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                      {formatCurrency(service.unit_price, 'ILS')}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
-                      {service.quantity} مقطوعية
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                    <td className="hidden sm:table-cell px-3 lg:px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                       {formatCurrency(total, 'ILS')}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 lg:px-6 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        <div className="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div className="w-20 lg:w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
                           <div
-                            className="bg-green-600 dark:bg-green-500 h-2 rounded-full"
+                            className="bg-green-600 dark:bg-green-500 h-1.5 rounded-full"
                             style={{ width: `${service.current_progress}%` }}
                           ></div>
                         </div>
-                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100 w-12 text-left">
+                        <span className="text-xs font-medium text-gray-900 dark:text-gray-100 w-8 text-left">
                           {service.current_progress.toFixed(0)}%
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <div className="flex items-center gap-2 justify-end">
+                    <td className="px-3 lg:px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex items-center gap-1.5 sm:gap-2 justify-end">
                         <button
                           onClick={() => handleEdit(service.id)}
-                          className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 p-1"
+                          className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 p-1.5 sm:p-2 rounded transition-colors"
                           title="تعديل"
                         >
-                          <Edit size={18} />
+                          <Edit size={16} className="sm:w-4 sm:h-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(service.id)}
-                          className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 p-1"
+                          className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 p-1.5 sm:p-2 rounded transition-colors"
                           title="حذف"
                         >
-                          <Trash2 size={18} />
+                          <Trash2 size={16} className="sm:w-4 sm:h-4" />
                         </button>
                       </div>
                     </td>
@@ -262,7 +228,8 @@ export default function ServicesPage() {
               })
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   )

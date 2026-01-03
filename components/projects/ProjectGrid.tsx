@@ -89,7 +89,7 @@ export default function ProjectGrid() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
       {projectsWithStats.length === 0 ? (
         <div className="col-span-full text-center py-8 text-gray-600 dark:text-gray-400">
           لا توجد مشاريع.
@@ -149,8 +149,8 @@ export default function ProjectGrid() {
                     {project.buildingsCount} {project.buildingsCount === 1 ? 'بناية' : 'بناية'}
                   </span>
                 </div>
-                <Link href={`/projects/${project.id}`}>
-                  <Button variant="outline" size="sm">
+                <Link href={`/projects/${project.id}`} className="w-full sm:w-auto">
+                  <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs sm:text-sm">
                     عرض البنايات
                   </Button>
                 </Link>

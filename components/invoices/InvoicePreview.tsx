@@ -151,7 +151,7 @@ export default function InvoicePreview({ invoiceId }: InvoicePreviewProps) {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="mb-6 flex justify-end gap-3">
+      <div className="mb-4 lg:mb-6 flex justify-end gap-3">
         <Button onClick={handlePrint} variant="outline">
           <Printer size={18} className="ml-2" />
           طباعة

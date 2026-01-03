@@ -31,10 +31,10 @@ export default function AreasPage() {
   if (showForm) {
     return (
       <div className="max-w-2xl">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 text-gray-900 dark:text-gray-100">
           {editingId ? 'تعديل المنطقة' : 'إضافة منطقة جديدة'}
         </h1>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <AreaForm areaId={editingId} onSuccess={handleSuccess} onCancel={handleCancel} />
         </div>
       </div>

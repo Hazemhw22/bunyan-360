@@ -139,26 +139,26 @@ export default function CompletionTrackingPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">تتبع الإنجاز</h1>
-        <p className="text-gray-700 dark:text-gray-400">تحديث نسب الإنجاز وحساب المستحقات</p>
+      <div className="mb-4 lg:mb-6">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">تتبع الإنجاز</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">تحديث نسب الإنجاز وحساب المستحقات</p>
       </div>
 
-      <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 mb-6">
+      <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 mb-4 lg:mb-6">
         <p className="text-sm text-blue-800 dark:text-blue-300">
           <span className="font-bold">معادلة الحساب:</span> المستحق = (السعر × الكمية × (النسبة الحالية - النسبة السابقة)) ÷ 100
         </p>
       </div>
 
-      <div className="flex justify-between items-center mb-6">
-        <Button onClick={handleSave} disabled={saving}>
-          <Save size={20} className="ml-2" />
-          {saving ? 'جاري الحفظ...' : 'حفظ التحديثات'}
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 sm:gap-3 mb-4 lg:mb-6">
+        <Button onClick={handleSave} disabled={saving} className="w-full sm:w-auto justify-center sm:justify-start">
+          <Save size={14} className="ml-1 sm:ml-1.5" />
+          <span className="text-xs">{saving ? 'جاري الحفظ...' : 'حفظ التحديثات'}</span>
         </Button>
         <select
           value={selectedBuilding}
           onChange={(e) => setSelectedBuilding(e.target.value)}
-          className="px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-2.5 py-1.5 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
         >
           <option value="all">جميع البنايات</option>
           {buildings.map((building) => (
@@ -170,28 +170,29 @@ export default function CompletionTrackingPage() {
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="overflow-x-auto custom-scrollbar">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 الخدمة
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="hidden md:table-cell px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 البناية
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="hidden lg:table-cell px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 السعر الإجمالي
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="hidden lg:table-cell px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 النسبة السابقة
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 النسبة الحالية
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 المستحق الحالي
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="hidden md:table-cell px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 آخر تحديث
               </th>
             </tr>
@@ -216,11 +217,11 @@ export default function CompletionTrackingPage() {
 
                 return (
                   <tr key={service.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td className="px-6 py-4 text-sm">
+                    <td className="px-3 lg:px-6 py-4 text-sm">
                       <div className="font-medium text-gray-900 dark:text-gray-100">{service.description}</div>
                       <div className="text-gray-600 dark:text-gray-500 text-xs">مقطوعية</div>
                     </td>
-                    <td className="px-6 py-4 text-sm">
+                    <td className="hidden md:table-cell px-3 lg:px-6 py-4 text-sm">
                       <div>
                         <div className="font-medium text-gray-900 dark:text-gray-100">
                           {service.building?.building_code === 'الرئيسية'
@@ -232,14 +233,14 @@ export default function CompletionTrackingPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                    <td className="hidden lg:table-cell px-3 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                       {formatCurrency(totalPrice, 'ILS')}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-700 dark:text-gray-400">
+                    <td className="hidden lg:table-cell px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-center text-gray-700 dark:text-gray-400">
                       {service.last_invoiced_progress.toFixed(0)}%
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-3">
+                    <td className="px-3 lg:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2 lg:gap-3">
                         <input
                           type="range"
                           min="0"
@@ -247,17 +248,17 @@ export default function CompletionTrackingPage() {
                           step="1"
                           value={currentProgress}
                           onChange={(e) => handleProgressChange(service.id, parseFloat(e.target.value))}
-                          className="w-32"
+                          className="w-24 lg:w-32"
                         />
-                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100 w-12 text-left">
+                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100 w-10 lg:w-12 text-left">
                           {currentProgress.toFixed(0)}%
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">
+                    <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">
                       {formatCurrency(currentDue, 'ILS')}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
+                    <td className="hidden md:table-cell px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
                       {service.updated_at
                         ? `${formatDate(service.updated_at, 'ar-SA')} - م. أحمد الصالح`
                         : 'لا يوجد'}
@@ -267,7 +268,8 @@ export default function CompletionTrackingPage() {
               })
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   )

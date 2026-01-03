@@ -245,14 +245,14 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">لوحة التحكم</h1>
-        <p className="text-gray-700 dark:text-gray-400">نظرة عامة على المشاريع والفواتير والإحصائيات</p>
+      <div className="mb-4 lg:mb-6">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">لوحة التحكم</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">نظرة عامة على المشاريع والفواتير والإحصائيات</p>
       </div>
 
       {/* Top Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-4 lg:mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">نسبة الإنجاز الكلية</p>
@@ -268,11 +268,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">المبالغ المعلقة</p>
-              <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(stats.pendingAmount, 'ILS')}</p>
+              <p className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(stats.pendingAmount, 'ILS')}</p>
               <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
                 {latestInvoices.filter((i) => i.status === 'sent' || i.status === 'draft').length} فاتورة معلقة
               </p>
@@ -283,11 +283,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">إجمالي الإيرادات</p>
-              <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(stats.totalRevenue, 'ILS')}</p>
+              <p className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(stats.totalRevenue, 'ILS')}</p>
               <p className="text-green-600 dark:text-green-400 text-sm mt-2 flex items-center gap-1">
                 <TrendingUp size={14} />
                 8% من الشهر الماضي
@@ -299,11 +299,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">المشاريع النشطة</p>
-              <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.activeProjects}</p>
+              <p className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.activeProjects}</p>
               <p className="text-green-600 dark:text-green-400 text-sm mt-2 flex items-center gap-1">
                 <TrendingUp size={14} />
                 12% من الشهر الماضي
@@ -317,8 +317,8 @@ export default function DashboardPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-4 lg:mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">إجمالي الفواتير</p>
@@ -328,7 +328,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">إجمالي المشاريع</p>
@@ -338,7 +338,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">المناطق</p>
@@ -350,7 +350,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Latest Invoices and Active Projects */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
         {/* Latest Invoices */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
@@ -362,7 +362,7 @@ export default function DashboardPage() {
               عرض الكل
             </Link>
           </div>
-          <div className="p-6">
+          <div className="p-4 lg:p-6">
             {latestInvoices.length === 0 ? (
               <p className="text-gray-600 dark:text-gray-400 text-center py-4">لا توجد فواتير</p>
             ) : (
@@ -403,7 +403,7 @@ export default function DashboardPage() {
               عرض الكل
             </Link>
           </div>
-          <div className="p-6">
+          <div className="p-4 lg:p-6">
             {activeProjects.length === 0 ? (
               <p className="text-gray-600 dark:text-gray-400 text-center py-4">لا توجد مشاريع نشطة</p>
             ) : (
@@ -438,7 +438,7 @@ export default function DashboardPage() {
 
       {/* Charts Section - Below Latest Invoices and Active Projects */}
       {(projectStatusData.length > 0 || (revenueTrendData.length > 0 && revenueTrendData.some(d => d.revenue > 0))) ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mt-4 lg:mt-6">
           {/* Project Status Chart */}
           {projectStatusData.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
@@ -448,7 +448,7 @@ export default function DashboardPage() {
                   ← عرض الكل
                 </Link>
               </div>
-              <div className="p-6">
+              <div className="p-4 lg:p-6">
                 <div className="flex flex-col items-center">
                   <ResponsiveContainer width="100%" height={400}>
                     <PieChart>
@@ -496,7 +496,7 @@ export default function DashboardPage() {
                   ← عرض التفاصيل
                 </Link>
               </div>
-              <div className="p-6">
+              <div className="p-4 lg:p-6">
                 <ResponsiveContainer width="100%" height={400}>
                   <LineChart data={revenueTrendData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />

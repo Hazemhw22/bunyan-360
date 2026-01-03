@@ -173,47 +173,49 @@ export default function InvoiceGenerator({
   const totalAmount = unbilledServices.reduce((sum, service) => sum + service.unbilledAmount, 0)
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">مولد الفواتير</h3>
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+      <div className="p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">مولد الفواتير</h3>
+      </div>
 
-      {unbilledServices.length === 0 ? (
-        <p className="text-gray-600 dark:text-gray-400">لا توجد خدمات غير مفوترة.</p>
-      ) : (
-        <>
-          <div className="mb-4 space-y-2">
-            {unbilledServices.map((service) => (
-              <div
-                key={service.id}
-                className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600"
-              >
-                <div>
-                  <span className="font-medium text-gray-900 dark:text-gray-100">
-                    {service.building.building_code === 'الرئيسية' ? 'البناية الرئيسية' : `البناية ${service.building.building_code}`}:
-                  </span>{' '}
-                  <span className="text-gray-700 dark:text-gray-400">{service.description}</span>
-                </div>
-                <div className="text-right">
-                  <div className="font-medium text-gray-900 dark:text-gray-100">{formatCurrency(service.unbilledAmount, 'ILS')}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    {service.last_invoiced_progress}% → {service.current_progress}%
+      <div className="p-4 lg:p-6">
+        {unbilledServices.length === 0 ? (
+          <p className="text-gray-600 dark:text-gray-400 text-center py-8">لا توجد خدمات غير مفوترة.</p>
+        ) : (
+          <>
+            <div className="mb-4 space-y-2">
+              {unbilledServices.map((service) => (
+                <div
+                  key={service.id}
+                  className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600"
+                >
+                  <div>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">
+                      {service.building.building_code === 'الرئيسية' ? 'البناية الرئيسية' : `البناية ${service.building.building_code}`}:
+                    </span>{' '}
+                    <span className="text-gray-700 dark:text-gray-400">{service.description}</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-medium text-gray-900 dark:text-gray-100">{formatCurrency(service.unbilledAmount, 'ILS')}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      {service.last_invoiced_progress}% → {service.current_progress}%
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between items-center">
-            <div className="text-lg font-bold text-gray-900 dark:text-gray-100">المبلغ الإجمالي:</div>
-            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{formatCurrency(totalAmount, 'ILS')}</div>
-          </div>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between items-center mb-4">
+              <div className="text-lg font-bold text-gray-900 dark:text-gray-100">المبلغ الإجمالي:</div>
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{formatCurrency(totalAmount, 'ILS')}</div>
+            </div>
 
-          <div className="mt-4">
             <Button onClick={handleGenerateInvoice} disabled={generating} className="w-full">
               {generating ? 'جاري إنشاء الفاتورة...' : 'إنشاء فاتورة'}
             </Button>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   )
 }

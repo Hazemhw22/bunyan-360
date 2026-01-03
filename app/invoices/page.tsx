@@ -89,104 +89,44 @@ export default function InvoicesPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة الفواتير</h1>
-        <p className="text-gray-700 dark:text-gray-400">إنشاء وتتبع فواتير المشاريع</p>
+      <div className="mb-4 lg:mb-6">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة الفواتير</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">إنشاء وتتبع فواتير المشاريع</p>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">المبالغ المعلقة</p>
-              <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                {formatCurrency(stats.pendingAmount, 'ILS')}
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center">
-              <X className="text-orange-600 dark:text-orange-400" size={24} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">المبالغ المحصلة</p>
-              <p className="text-2xl font-bold text-green-600 dark:text-green-400">
-                {formatCurrency(stats.collectedAmount, 'ILS')}
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-              <CheckCircle className="text-green-600 dark:text-green-400" size={24} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">إجمالي الفواتير</p>
-              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                {formatCurrency(stats.totalInvoices, 'ILS')}
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-              <DollarSign className="text-blue-600 dark:text-blue-400" size={24} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="flex justify-between items-center mb-6">
-        <Button>
-          <Plus size={20} className="ml-2" />
-          فاتورة جديدة
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 sm:gap-3 mb-4 lg:mb-6">
+        <Button className="w-full sm:w-auto justify-center sm:justify-start">
+          <Plus size={14} className="ml-1 sm:ml-1.5" />
+          <span className="text-xs">فاتورة جديدة</span>
         </Button>
-        <div className="flex gap-3">
-          <select className="px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <select className="px-2.5 py-1.5 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto">
             <option>جميع الحالات</option>
             <option>مدفوعة</option>
             <option>قيد الانتظار</option>
             <option>مسودة</option>
           </select>
-          <select className="px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <select className="px-2.5 py-1.5 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto">
             <option>جميع الشركات</option>
           </select>
         </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="overflow-x-auto custom-scrollbar">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 رقم الفاتورة
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                الشركة
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                المشروع / البناية
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="hidden sm:table-cell px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 المبلغ الإجمالي
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                المدفوع
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                المتبقي
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                تاريخ الإصدار
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 الحالة
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 الإجراءات
               </th>
             </tr>
@@ -194,54 +134,26 @@ export default function InvoicesPage() {
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {invoices.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-6 py-4 text-center text-gray-600 dark:text-gray-400">
+                <td colSpan={4} className="px-3 lg:px-6 py-3 text-center text-gray-600 dark:text-gray-400">
                   لا توجد فواتير.
                 </td>
               </tr>
             ) : (
               invoices.map((invoice) => {
-                const paidAmount = invoice.status === 'paid' ? invoice.amount : 0
-                const remainingAmount = invoice.amount - paidAmount
                 return (
                   <tr key={invoice.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-2">
-                        <FileText className="text-gray-400" size={18} />
-                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                          {invoice.invoice_number}
-                        </span>
+                    <td className="px-3 lg:px-6 py-3 whitespace-nowrap text-sm">
+                      <div className="font-medium text-gray-900 dark:text-gray-100">{invoice.invoice_number}</div>
+                      <div className="hidden sm:block mt-1 text-xs font-medium text-gray-700 dark:text-gray-400">
+                        {formatCurrency(invoice.amount, 'ILS')}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
-                      {invoice.company?.name || '-'}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-400">
-                      <div>
-                        <div className="font-medium text-gray-900 dark:text-gray-100">
-                          {invoice.project?.name || '-'}
-                        </div>
-                        {invoice.building && (
-                          <div className="text-xs text-gray-500 dark:text-gray-500">
-                            {invoice.project?.area_id ? 'منطقة' : ''} • {invoice.building.building_code}
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                    <td className="hidden sm:table-cell px-3 lg:px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                       {formatCurrency(invoice.amount, 'ILS')}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
-                      {paidAmount > 0 ? formatCurrency(paidAmount, 'ILS') : '- ₪'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
-                      {remainingAmount > 0 ? formatCurrency(remainingAmount, 'ILS') : '- ₪'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
-                      {formatDate(invoice.created_at, 'ar-SA')}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 lg:px-6 py-3 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        className={`px-2 py-0.5 inline-flex text-xs leading-4 font-semibold rounded-full ${
                           invoice.status === 'paid'
                             ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300'
                             : invoice.status === 'sent'
@@ -252,10 +164,10 @@ export default function InvoicesPage() {
                         {invoice.status === 'paid' ? 'مدفوعة' : invoice.status === 'sent' ? 'قيد الانتظار' : 'مسودة'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <td className="px-3 lg:px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
                       <Link
                         href={`/invoices/${invoice.id}`}
-                        className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
+                        className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 px-2 py-1 rounded transition-colors text-xs sm:text-sm"
                       >
                         عرض
                       </Link>
@@ -265,7 +177,8 @@ export default function InvoicesPage() {
               })
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   )

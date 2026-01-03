@@ -94,20 +94,20 @@ export default function BuildingsPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة البنايات</h1>
-        <p className="text-gray-700 dark:text-gray-400">إدارة البنايات وتقسيمات المشاريع</p>
+      <div className="mb-4 lg:mb-6">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة البنايات</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">إدارة البنايات وتقسيمات المشاريع</p>
       </div>
 
-      <div className="flex justify-between items-center mb-6">
-        <Button>
-          <Plus size={20} className="ml-2" />
-          إضافة بناية
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 sm:gap-3 mb-4 lg:mb-6">
+        <Button className="w-full sm:w-auto justify-center sm:justify-start">
+          <Plus size={14} className="ml-1 sm:ml-1.5" />
+          <span className="text-xs">إضافة بناية</span>
         </Button>
         <select
           value={selectedProject}
           onChange={(e) => setSelectedProject(e.target.value)}
-          className="px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-2.5 py-1.5 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
         >
           <option value="all">جميع المشاريع</option>
           {projects.map((project) => (
@@ -118,7 +118,7 @@ export default function BuildingsPage() {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {buildings.length === 0 ? (
           <div className="col-span-full text-center py-8 text-gray-600 dark:text-gray-400">
             لا توجد بنايات
@@ -129,7 +129,7 @@ export default function BuildingsPage() {
             return (
               <div
                 key={building.id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-shadow border border-gray-200 dark:border-gray-700"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 hover:shadow-lg transition-shadow border border-gray-200 dark:border-gray-700"
               >
                 <div className="flex justify-between items-start mb-4">
                   <span className={`px-3 py-1 text-xs font-semibold rounded-full ${status.color}`}>
@@ -164,15 +164,15 @@ export default function BuildingsPage() {
 
                 <div className="flex gap-2">
                   <Link href={`/buildings/${building.id}`} className="flex-1">
-                    <Button variant="outline" className="w-full">
-                      <TrendingUp size={16} className="ml-2" />
-                      من الإنجاز
+                    <Button variant="outline" className="w-full text-xs sm:text-sm">
+                      <TrendingUp size={14} className="ml-1.5" />
+                      <span>من الإنجاز</span>
                     </Button>
                   </Link>
                   <Link href={`/buildings/${building.id}`} className="flex-1">
-                    <Button variant="outline" className="w-full">
-                      <Wrench size={16} className="ml-2" />
-                      الخدمات
+                    <Button variant="outline" className="w-full text-xs sm:text-sm">
+                      <Wrench size={14} className="ml-1.5" />
+                      <span>الخدمات</span>
                     </Button>
                   </Link>
                 </div>

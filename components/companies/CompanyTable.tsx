@@ -92,19 +92,19 @@ export default function CompanyTable({ onAddClick, onEditClick }: CompanyTablePr
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة الشركات</h1>
-        <p className="text-gray-700 dark:text-gray-400">إدارة بيانات الشركات والعملاء</p>
+      <div className="mb-4 lg:mb-6">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة الشركات</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">إدارة بيانات الشركات والعملاء</p>
       </div>
 
-      <div className="mb-6">
-        <Button onClick={onAddClick}>
-          <Plus size={20} className="ml-2" />
-          إضافة شركة
+      <div className="mb-4 lg:mb-6">
+        <Button onClick={onAddClick} className="w-full sm:w-auto justify-center sm:justify-start">
+          <Plus size={14} className="ml-1 sm:ml-1.5" />
+          <span className="text-xs">إضافة شركة</span>
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {companiesWithStats.length === 0 ? (
           <div className="col-span-full text-center py-8 text-gray-600 dark:text-gray-400">
             لا توجد شركات. انقر "إضافة شركة" لإنشاء واحدة.

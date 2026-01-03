@@ -8,7 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Button({
   variant = 'primary',
-  size = 'md',
+  size = 'sm',
   className = '',
   children,
   ...props
@@ -23,14 +23,14 @@ export default function Button({
   }
   
   const sizes = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
+    sm: 'px-2 py-1 text-xs',
+    md: 'px-3 py-1.5 text-xs sm:text-sm',
+    lg: 'px-4 py-2 text-sm sm:text-base',
   }
 
   return (
     <button
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} flex items-center justify-center ${className}`}
       {...props}
     >
       {children}

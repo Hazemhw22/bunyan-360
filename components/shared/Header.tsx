@@ -1,11 +1,15 @@
 'use client'
 
-import { Bell, Search, User, Globe, Sun, Moon, LogOut, UserCircle, Settings } from 'lucide-react'
+import { Bell, Search, User, Globe, Sun, Moon, LogOut, UserCircle, Settings, Menu } from 'lucide-react'
 import { createClient } from '@/lib/supabaseClient'
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void
+}
+
+export default function Header({ onMenuClick }: HeaderProps) {
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [userRole, setUserRole] = useState<string>('مدير النظام')
   const [showDropdown, setShowDropdown] = useState(false)
@@ -73,9 +77,18 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-gray-100 dark:bg-gray-800 border-b border-r border-gray-200 dark:border-gray-700 px-6 p-6">
+    <header className="bg-gray-100 dark:bg-gray-800 border-b border-r border-gray-200 dark:border-gray-700 px-4 py-4 lg:px-6 lg:p-6">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-6 flex-row-reverse">
+        <div className="flex items-center gap-3 lg:gap-6 flex-row-reverse">
+          {onMenuClick && (
+            <button
+              onClick={onMenuClick}
+              className="lg:hidden p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              title="فتح القائمة"
+            >
+              <Menu size={20} className="text-gray-600 dark:text-gray-400" />
+            </button>
+          )}
           <button className="lg:hidden p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
             <Search size={20} className="text-gray-600 dark:text-gray-400" />
           </button>
@@ -84,12 +97,12 @@ export default function Header() {
             <input
               type="text"
               placeholder="البحث في المشاريع، الشركات، الفواتير..."
-              className="pr-10 pl-4 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 w-96 text-right"
+              className="pr-10 pl-4 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 w-64 lg:w-96 text-right text-sm lg:text-base"
             />
           </div>
         </div>
 
-        <div className="flex items-center gap-4 flex-row-reverse">
+        <div className="flex items-center gap-2 lg:gap-4 flex-row-reverse">
           {/* Language Toggle */}
           <button
             onClick={toggleLanguage}
