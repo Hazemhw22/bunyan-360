@@ -47,7 +47,7 @@ export default function BuildingDetailPage() {
     quantity: number
   }) => {
     try {
-      const { error } = await supabase.from('services').insert([
+      const { error } = await (supabase.from('services').insert([
         {
           building_id: buildingId,
           description: serviceData.description,
@@ -56,7 +56,7 @@ export default function BuildingDetailPage() {
           current_progress: 0,
           last_invoiced_progress: 0,
         },
-      ])
+      ] as never) as any)
 
       if (error) throw error
       setShowAddService(false)

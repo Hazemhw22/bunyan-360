@@ -55,13 +55,13 @@ export default function ProjectDetailPage() {
 
   const handleAddBuilding = async (buildingCode: string) => {
     try {
-      const { error } = await supabase.from('buildings').insert([
+      const { error } = await (supabase.from('buildings').insert([
         {
           project_id: projectId,
           building_code: buildingCode,
           total_progress: 0,
         },
-      ])
+      ] as never) as any)
 
       if (error) throw error
       setShowAddBuilding(false)
