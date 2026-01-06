@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabaseClient'
 import Link from 'next/link'
 import Input from '@/components/shared/Input'
 import Button from '@/components/shared/Button'
+import { createNotification } from '@/lib/notifications'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -29,6 +30,14 @@ export default function LoginPage() {
       if (error) throw error
 
       if (data.session) {
+        // Create welcome notification
+        await createNotification({
+          title: 'مرحباً بك!',
+          message: 'تم تسجيل الدخول بنجاح. أهلاً بك في نظام بنيان 360',
+          type: 'success',
+          link: '/dashboard',
+        })
+
         router.push('/dashboard')
         router.refresh()
       }

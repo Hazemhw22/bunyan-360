@@ -9,6 +9,7 @@ import InvoiceGenerator from '@/components/invoices/InvoiceGenerator'
 import Button from '@/components/shared/Button'
 import { Plus, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { createNotification } from '@/lib/notifications'
 
 export default function ProjectDetailPage() {
   const params = useParams()
@@ -64,6 +65,15 @@ export default function ProjectDetailPage() {
       ] as never) as any)
 
       if (error) throw error
+
+      // Create notification
+      await createNotification({
+        title: 'تم إضافة بناية جديدة',
+        message: `تم إضافة البناية "${buildingCode}" للمشروع "${project?.name || ''}" بنجاح`,
+        type: 'success',
+        link: `/projects/${projectId}`,
+      })
+
       setShowAddBuilding(false)
       fetchData()
     } catch (error) {

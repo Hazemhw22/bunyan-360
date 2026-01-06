@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabaseClient'
 import Input from '@/components/shared/Input'
 import Button from '@/components/shared/Button'
+import { createNotification } from '@/lib/notifications'
 
 interface CompanyFormProps {
   companyId?: string
@@ -68,6 +69,13 @@ export default function CompanyForm({ companyId, onSuccess, onCancel }: CompanyF
           .eq('id', companyId) as any)
 
         if (error) throw error
+
+        await createNotification({
+          title: 'تم تحديث الشركة',
+          message: `تم تحديث بيانات الشركة "${name}" بنجاح`,
+          type: 'success',
+          link: '/companies',
+        })
       } else {
         const { error } = await (supabase
           .from('companies')
@@ -82,6 +90,13 @@ export default function CompanyForm({ companyId, onSuccess, onCancel }: CompanyF
           ]) as any)
 
         if (error) throw error
+
+        await createNotification({
+          title: 'تم إضافة شركة جديدة',
+          message: `تم إضافة الشركة "${name}" بنجاح`,
+          type: 'success',
+          link: '/companies',
+        })
       }
 
       onSuccess()

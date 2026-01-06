@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { useAreas } from '@/hooks/useAreas'
 import { createClient } from '@/lib/supabaseClient'
 import Button from '@/components/shared/Button'
-import ConfirmModal from '@/components/shared/ConfirmModal'
 import { Plus, MapPin, FileText, MoreVertical, Edit, Trash2 } from 'lucide-react'
 import { createNotification } from '@/lib/notifications'
 
@@ -29,8 +28,6 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
   const [loadingStats, setLoadingStats] = useState(true)
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [areaToDelete, setAreaToDelete] = useState<{ id: string; name: string } | null>(null)
   const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
   const supabase = createClient()
 
@@ -50,28 +47,16 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (!openMenuId) return
-      
-      const target = event.target as Node
-      let clickedInside = false
-
       Object.keys(menuRefs.current).forEach((areaId) => {
         const menuRef = menuRefs.current[areaId]
-        if (menuRef && menuRef.contains(target)) {
-          clickedInside = true
+        if (menuRef && !menuRef.contains(event.target as Node)) {
+          setOpenMenuId(null)
         }
       })
-
-      if (!clickedInside) {
-        setOpenMenuId(null)
-      }
     }
 
     if (openMenuId) {
-      // Use a small delay to allow menu button clicks to register first
-      setTimeout(() => {
-        document.addEventListener('mousedown', handleClickOutside)
-      }, 10)
+      document.addEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
@@ -120,49 +105,44 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
     }
   }
 
-  const handleDeleteClick = (areaId: string, areaName: string) => {
-    setAreaToDelete({ id: areaId, name: areaName })
-    setShowDeleteModal(true)
-    setOpenMenuId(null)
-  }
-
-  const handleConfirmDelete = async () => {
-    if (!areaToDelete) return
+  const handleDelete = async (areaId: string, areaName: string) => {
+    const confirmMessage = t('common.confirmDelete', 'هل أنت متأكد من حذف هذا العنصر؟')
+    if (!window.confirm(confirmMessage)) {
+      return
+    }
 
     try {
-      setDeletingId(areaToDelete.id)
-      setShowDeleteModal(false)
+      setDeletingId(areaId)
+      setOpenMenuId(null)
       
       // Check if area has projects
       const { data: projects, error: projectsError } = await supabase
         .from('projects')
         .select('id')
-        .eq('area_id', areaToDelete.id)
+        .eq('area_id', areaId)
         .limit(1)
 
       if (projectsError) throw projectsError
 
       if (projects && projects.length > 0) {
-        await createNotification({
-          title: t('areas.cannotDeleteTitle', 'لا يمكن الحذف'),
-          message: t('areas.cannotDeleteWithProjects', 'لا يمكن حذف المنطقة لأنها تحتوي على مشاريع'),
-          type: 'warning',
-          link: '/areas',
-        })
+        const errorMessage = t('areas.cannotDeleteWithProjects', 'لا يمكن حذف المنطقة لأنها تحتوي على مشاريع')
+        alert(errorMessage)
         setDeletingId(null)
-        setAreaToDelete(null)
         return
       }
 
       const { error } = await (supabase
         .from('areas')
         .delete()
-        .eq('id', areaToDelete.id) as any)
+        .eq('id', areaId) as any)
 
-      if (error) throw error
+      if (error) {
+        console.error('Delete error:', error)
+        throw error
+      }
 
-      // Create success notification
-      const successMessage = t('areas.deleteSuccess', `تم حذف المنطقة "${areaToDelete.name}" بنجاح`)
+      // Create notification
+      const successMessage = t('areas.deleteSuccess', `تم حذف المنطقة "${areaName}" بنجاح`)
       await createNotification({
         title: t('areas.areaDeleted', 'تم حذف المنطقة'),
         message: successMessage,
@@ -172,22 +152,22 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
 
       // Refresh the list
       await refetch()
-      
-      setAreaToDelete(null)
+
+      // Show success message after refresh
+      setTimeout(() => {
+        alert(successMessage)
+      }, 100)
     } catch (err: any) {
       console.error('Error deleting area:', err)
-      await createNotification({
-        title: t('common.error', 'خطأ'),
-        message: err.message || t('common.saveError', 'حدث خطأ أثناء الحذف'),
-        type: 'error',
-        link: '/areas',
-      })
+      const errorMessage = err.message || t('common.saveError', 'حدث خطأ أثناء الحذف')
+      alert(errorMessage)
     } finally {
       setDeletingId(null)
     }
   }
 
   const toggleMenu = (areaId: string) => {
+    console.log('Toggle menu clicked for area:', areaId, 'Current openMenuId:', openMenuId)
     setOpenMenuId(openMenuId === areaId ? null : areaId)
   }
 
@@ -225,7 +205,7 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
               className="bg-gray-50 dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow relative"
             >
               {/* Three dots menu - top left */}
-              <div className="absolute top-3 left-3 z-10" ref={(el) => { menuRefs.current[area.id] = el }}>
+              <div className="absolute top-3 left-3" ref={(el) => { menuRefs.current[area.id] = el }}>
                 <button
                   type="button"
                   onClick={(e) => {
@@ -235,22 +215,13 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
                   }}
                   className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                   disabled={deletingId === area.id}
-                  aria-label="Open menu"
                 >
                   <MoreVertical className="text-gray-500 dark:text-gray-400" size={16} />
                 </button>
 
                 {/* Dropdown Menu */}
                 {openMenuId === area.id && (
-                  <div 
-                    className="absolute top-10 left-0 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-[9999]"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                    }}
-                    onMouseDown={(e) => {
-                      e.stopPropagation()
-                    }}
-                  >
+                  <div className="absolute top-10 left-0 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
                     <button
                       type="button"
                       onClick={(e) => {
@@ -273,7 +244,7 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
                       onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
-                        handleDeleteClick(area.id, area.name)
+                        handleDelete(area.id, area.name)
                       }}
                       disabled={deletingId === area.id}
                       className="w-full text-right px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 flex-row-reverse transition-colors last:rounded-b-lg disabled:opacity-50 disabled:cursor-not-allowed"
@@ -312,22 +283,6 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
           ))}
         </div>
       )}
-
-      {/* Delete Confirmation Modal */}
-      <ConfirmModal
-        isOpen={showDeleteModal}
-        onClose={() => {
-          setShowDeleteModal(false)
-          setAreaToDelete(null)
-        }}
-        onConfirm={handleConfirmDelete}
-        title={t('areas.confirmDeleteTitle', 'تأكيد الحذف')}
-        message={areaToDelete ? t('areas.confirmDeleteMessage', `هل أنت متأكد من حذف المنطقة "${areaToDelete.name}"؟ لا يمكن التراجع عن هذا الإجراء.`) : ''}
-        confirmText={t('common.delete', 'حذف')}
-        cancelText={t('common.cancel', 'إلغاء')}
-        type="danger"
-        loading={deletingId !== null}
-      />
     </div>
   )
 }

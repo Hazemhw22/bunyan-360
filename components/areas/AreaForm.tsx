@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabaseClient'
 import Input from '@/components/shared/Input'
 import Button from '@/components/shared/Button'
 import { Area } from '@/types/database'
+import { createNotification } from '@/lib/notifications'
 
 interface AreaFormProps {
   areaId?: string
@@ -57,12 +58,26 @@ export default function AreaForm({ areaId, onSuccess, onCancel }: AreaFormProps)
           .eq('id', areaId) as any)
 
         if (error) throw error
+
+        await createNotification({
+          title: 'تم تحديث المنطقة',
+          message: `تم تحديث المنطقة "${name}" بنجاح`,
+          type: 'success',
+          link: '/areas',
+        })
       } else {
         const { error } = await (supabase
           .from('areas')
           .insert([{ name, city: city || null } as never]) as any)
 
         if (error) throw error
+
+        await createNotification({
+          title: 'تم إضافة منطقة جديدة',
+          message: `تم إضافة المنطقة "${name}" بنجاح`,
+          type: 'success',
+          link: '/areas',
+        })
       }
 
       onSuccess()

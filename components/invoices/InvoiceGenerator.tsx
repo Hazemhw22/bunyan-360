@@ -6,6 +6,7 @@ import { Service, Building, Invoice, InvoiceItem } from '@/types/database'
 import { calculateUnbilledAmount } from '@/lib/calculations'
 import { formatCurrency, generateInvoiceNumber } from '@/lib/utils'
 import Button from '@/components/shared/Button'
+import { createNotification } from '@/lib/notifications'
 
 interface InvoiceGeneratorProps {
   projectId: string
@@ -152,6 +153,14 @@ export default function InvoiceGenerator({
       )
 
       await Promise.all(updatePromises)
+
+      // Create notification
+      await createNotification({
+        title: 'تم إنشاء فاتورة جديدة',
+        message: `تم إنشاء الفاتورة ${invoiceNumber} بمبلغ ${formatCurrency(totalAmount)}`,
+        type: 'success',
+        link: `/invoices/${invoiceTyped.id}`,
+      })
 
       onInvoiceGenerated()
     } catch (err) {

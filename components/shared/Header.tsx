@@ -1,11 +1,12 @@
 'use client'
 
-import { Bell, Search, User, Sun, Moon, LogOut, UserCircle, Settings, Menu } from 'lucide-react'
+import { Search, User, Sun, Moon, LogOut, UserCircle, Settings, Menu } from 'lucide-react'
 import { createClient } from '@/lib/supabaseClient'
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitcher'
+import NotificationDropdown from './NotificationDropdown'
 
 interface HeaderProps {
   onMenuClick?: () => void
@@ -116,10 +117,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </button>
 
           {/* Notifications */}
-          <button className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors relative">
-            <Bell size={20} className="text-gray-600 dark:text-gray-400" />
-            <span className="absolute top-1 left-1 w-5 h-5 bg-red-500 dark:bg-red-600 rounded-full flex items-center justify-center text-white text-xs font-semibold">3</span>
-          </button>
+          <NotificationDropdown />
 
           {/* User Profile with Dropdown */}
           <div className="relative" ref={dropdownRef}>

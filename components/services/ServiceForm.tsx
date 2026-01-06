@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabaseClient'
 import { Building } from '@/types/database'
 import Input from '@/components/shared/Input'
 import Button from '@/components/shared/Button'
+import { createNotification } from '@/lib/notifications'
 
 interface ServiceFormProps {
   serviceId?: string
@@ -87,6 +88,13 @@ export default function ServiceForm({ serviceId, buildingId, onSuccess, onCancel
           .eq('id', serviceId) as any)
 
         if (error) throw error
+
+        await createNotification({
+          title: 'تم تحديث الخدمة',
+          message: `تم تحديث الخدمة "${description}" بنجاح`,
+          type: 'success',
+          link: '/services',
+        })
       } else {
         const { error } = await (supabase
           .from('services')
@@ -100,6 +108,13 @@ export default function ServiceForm({ serviceId, buildingId, onSuccess, onCancel
           ]) as any)
 
         if (error) throw error
+
+        await createNotification({
+          title: 'تم إضافة خدمة جديدة',
+          message: `تم إضافة الخدمة "${description}" بنجاح`,
+          type: 'success',
+          link: '/services',
+        })
       }
 
       onSuccess()

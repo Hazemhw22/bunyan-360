@@ -152,7 +152,13 @@
     "active": "نشط",
     "project": "مشروع",
     "projects": "مشروع",
-    "noCity": "بدون مدينة"
+    "noCity": "بدون مدينة",
+    "cannotDeleteWithProjects": "لا يمكن حذف المنطقة لأنها تحتوي على مشاريع",
+    "cannotDeleteTitle": "لا يمكن الحذف",
+    "deleteSuccess": "تم حذف المنطقة بنجاح",
+    "areaDeleted": "تم حذف المنطقة",
+    "confirmDeleteTitle": "تأكيد الحذف",
+    "confirmDeleteMessage": "هل أنت متأكد من حذف المنطقة \"{{name}}\"؟ لا يمكن التراجع عن هذا الإجراء."
   },
   "completionTracking": {
     "title": "تتبع الإنجاز",
@@ -169,6 +175,41 @@
     "lastUpdate": "آخر تحديث",
     "calculationFormula": "معادلة الحساب",
     "formula": "المستحق = (السعر × الكمية × (النسبة الحالية - النسبة السابقة)) ÷ 100"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "subtitle": "عرض وإدارة جميع الإشعارات",
+    "noNotifications": "لا توجد إشعارات",
+    "noUnreadNotifications": "لا توجد إشعارات غير مقروءة",
+    "markAllRead": "تحديد الكل كمقروء",
+    "markAsRead": "تحديد كمقروء",
+    "delete": "حذف",
+    "viewAll": "عرض جميع الإشعارات",
+    "viewDetails": "عرض التفاصيل",
+    "all": "الكل",
+    "unread": "غير مقروء",
+    "justNow": "الآن",
+    "minutesAgo": "دقيقة",
+    "hoursAgo": "ساعة",
+    "daysAgo": "يوم",
+    "weeksAgo": "أسبوع",
+    "monthsAgo": "شهر",
+    "typeInfo": "معلومات",
+    "typeSuccess": "نجاح",
+    "typeWarning": "تحذير",
+    "typeError": "خطأ",
+    "welcome": "مرحباً بك!",
+    "welcomeMessage": "تم تسجيل الدخول بنجاح. أهلاً بك في نظام بنيان 360",
+    "areaAdded": "تم إضافة منطقة جديدة",
+    "areaUpdated": "تم تحديث المنطقة",
+    "companyAdded": "تم إضافة شركة جديدة",
+    "companyUpdated": "تم تحديث الشركة",
+    "projectAdded": "تم إضافة مشروع جديد",
+    "projectUpdated": "تم تحديث المشروع",
+    "serviceAdded": "تم إضافة خدمة جديدة",
+    "serviceUpdated": "تم تحديث الخدمة",
+    "buildingAdded": "تم إضافة بناية جديدة",
+    "invoiceCreated": "تم إنشاء فاتورة جديدة"
   }
 }
 

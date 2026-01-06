@@ -322,7 +322,7 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
         }}
         onConfirm={handleConfirmDelete}
         title={t('areas.confirmDeleteTitle', 'تأكيد الحذف')}
-        message={areaToDelete ? t('areas.confirmDeleteMessage', `هل أنت متأكد من حذف المنطقة "${areaToDelete.name}"؟ لا يمكن التراجع عن هذا الإجراء.`) : ''}
+        message={t('areas.confirmDeleteMessage', `هل أنت متأكد من حذف المنطقة "${areaToDelete?.name}"؟ لا يمكن التراجع عن هذا الإجراء.`)}
         confirmText={t('common.delete', 'حذف')}
         cancelText={t('common.cancel', 'إلغاء')}
         type="danger"

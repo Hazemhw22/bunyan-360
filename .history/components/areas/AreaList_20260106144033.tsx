@@ -256,10 +256,12 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
                       onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
+                        console.log('Edit button clicked for area:', area.id)
                         const areaIdToEdit = area.id
                         setOpenMenuId(null)
                         // Use setTimeout to ensure menu closes before opening form
                         setTimeout(() => {
+                          console.log('Calling onEditClick with:', areaIdToEdit)
                           onEditClick(areaIdToEdit)
                         }, 50)
                       }}
@@ -273,7 +275,8 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
                       onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
-                        handleDeleteClick(area.id, area.name)
+                        console.log('Delete button clicked for area:', area.id)
+                        handleDelete(area.id, area.name)
                       }}
                       disabled={deletingId === area.id}
                       className="w-full text-right px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 flex-row-reverse transition-colors last:rounded-b-lg disabled:opacity-50 disabled:cursor-not-allowed"
@@ -312,22 +315,6 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
           ))}
         </div>
       )}
-
-      {/* Delete Confirmation Modal */}
-      <ConfirmModal
-        isOpen={showDeleteModal}
-        onClose={() => {
-          setShowDeleteModal(false)
-          setAreaToDelete(null)
-        }}
-        onConfirm={handleConfirmDelete}
-        title={t('areas.confirmDeleteTitle', 'تأكيد الحذف')}
-        message={areaToDelete ? t('areas.confirmDeleteMessage', `هل أنت متأكد من حذف المنطقة "${areaToDelete.name}"؟ لا يمكن التراجع عن هذا الإجراء.`) : ''}
-        confirmText={t('common.delete', 'حذف')}
-        cancelText={t('common.cancel', 'إلغاء')}
-        type="danger"
-        loading={deletingId !== null}
-      />
     </div>
   )
 }

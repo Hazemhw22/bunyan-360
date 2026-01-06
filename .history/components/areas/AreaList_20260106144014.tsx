@@ -63,6 +63,7 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
       })
 
       if (!clickedInside) {
+        console.log('Clicking outside menu, closing it')
         setOpenMenuId(null)
       }
     }
@@ -120,49 +121,44 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
     }
   }
 
-  const handleDeleteClick = (areaId: string, areaName: string) => {
-    setAreaToDelete({ id: areaId, name: areaName })
-    setShowDeleteModal(true)
-    setOpenMenuId(null)
-  }
-
-  const handleConfirmDelete = async () => {
-    if (!areaToDelete) return
+  const handleDelete = async (areaId: string, areaName: string) => {
+    const confirmMessage = t('common.confirmDelete', 'هل أنت متأكد من حذف هذا العنصر؟')
+    if (!window.confirm(confirmMessage)) {
+      return
+    }
 
     try {
-      setDeletingId(areaToDelete.id)
-      setShowDeleteModal(false)
+      setDeletingId(areaId)
+      setOpenMenuId(null)
       
       // Check if area has projects
       const { data: projects, error: projectsError } = await supabase
         .from('projects')
         .select('id')
-        .eq('area_id', areaToDelete.id)
+        .eq('area_id', areaId)
         .limit(1)
 
       if (projectsError) throw projectsError
 
       if (projects && projects.length > 0) {
-        await createNotification({
-          title: t('areas.cannotDeleteTitle', 'لا يمكن الحذف'),
-          message: t('areas.cannotDeleteWithProjects', 'لا يمكن حذف المنطقة لأنها تحتوي على مشاريع'),
-          type: 'warning',
-          link: '/areas',
-        })
+        const errorMessage = t('areas.cannotDeleteWithProjects', 'لا يمكن حذف المنطقة لأنها تحتوي على مشاريع')
+        alert(errorMessage)
         setDeletingId(null)
-        setAreaToDelete(null)
         return
       }
 
       const { error } = await (supabase
         .from('areas')
         .delete()
-        .eq('id', areaToDelete.id) as any)
+        .eq('id', areaId) as any)
 
-      if (error) throw error
+      if (error) {
+        console.error('Delete error:', error)
+        throw error
+      }
 
-      // Create success notification
-      const successMessage = t('areas.deleteSuccess', `تم حذف المنطقة "${areaToDelete.name}" بنجاح`)
+      // Create notification
+      const successMessage = t('areas.deleteSuccess', `تم حذف المنطقة "${areaName}" بنجاح`)
       await createNotification({
         title: t('areas.areaDeleted', 'تم حذف المنطقة'),
         message: successMessage,
@@ -172,22 +168,22 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
 
       // Refresh the list
       await refetch()
-      
-      setAreaToDelete(null)
+
+      // Show success message after refresh
+      setTimeout(() => {
+        alert(successMessage)
+      }, 100)
     } catch (err: any) {
       console.error('Error deleting area:', err)
-      await createNotification({
-        title: t('common.error', 'خطأ'),
-        message: err.message || t('common.saveError', 'حدث خطأ أثناء الحذف'),
-        type: 'error',
-        link: '/areas',
-      })
+      const errorMessage = err.message || t('common.saveError', 'حدث خطأ أثناء الحذف')
+      alert(errorMessage)
     } finally {
       setDeletingId(null)
     }
   }
 
   const toggleMenu = (areaId: string) => {
+    console.log('Toggle menu clicked for area:', areaId, 'Current openMenuId:', openMenuId)
     setOpenMenuId(openMenuId === areaId ? null : areaId)
   }
 
@@ -231,6 +227,7 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
+                    console.log('Menu button clicked for area:', area.id)
                     toggleMenu(area.id)
                   }}
                   className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
@@ -256,10 +253,12 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
                       onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
+                        console.log('Edit button clicked for area:', area.id)
                         const areaIdToEdit = area.id
                         setOpenMenuId(null)
                         // Use setTimeout to ensure menu closes before opening form
                         setTimeout(() => {
+                          console.log('Calling onEditClick with:', areaIdToEdit)
                           onEditClick(areaIdToEdit)
                         }, 50)
                       }}
@@ -273,7 +272,8 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
                       onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
-                        handleDeleteClick(area.id, area.name)
+                        console.log('Delete button clicked for area:', area.id)
+                        handleDelete(area.id, area.name)
                       }}
                       disabled={deletingId === area.id}
                       className="w-full text-right px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 flex-row-reverse transition-colors last:rounded-b-lg disabled:opacity-50 disabled:cursor-not-allowed"
@@ -312,22 +312,6 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
           ))}
         </div>
       )}
-
-      {/* Delete Confirmation Modal */}
-      <ConfirmModal
-        isOpen={showDeleteModal}
-        onClose={() => {
-          setShowDeleteModal(false)
-          setAreaToDelete(null)
-        }}
-        onConfirm={handleConfirmDelete}
-        title={t('areas.confirmDeleteTitle', 'تأكيد الحذف')}
-        message={areaToDelete ? t('areas.confirmDeleteMessage', `هل أنت متأكد من حذف المنطقة "${areaToDelete.name}"؟ لا يمكن التراجع عن هذا الإجراء.`) : ''}
-        confirmText={t('common.delete', 'حذف')}
-        cancelText={t('common.cancel', 'إلغاء')}
-        type="danger"
-        loading={deletingId !== null}
-      />
     </div>
   )
 }

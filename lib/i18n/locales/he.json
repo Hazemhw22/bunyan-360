@@ -152,7 +152,13 @@
     "active": "פעיל",
     "project": "פרויקט",
     "projects": "פרויקטים",
-    "noCity": "ללא עיר"
+    "noCity": "ללא עיר",
+    "cannotDeleteWithProjects": "לא ניתן למחוק אזור מכיוון שהוא מכיל פרויקטים",
+    "cannotDeleteTitle": "לא ניתן למחוק",
+    "deleteSuccess": "אזור נמחק בהצלחה",
+    "areaDeleted": "אזור נמחק",
+    "confirmDeleteTitle": "אשר מחיקה",
+    "confirmDeleteMessage": "האם אתה בטוח שברצונך למחוק את האזור \"{{name}}\"? פעולה זו לא ניתנת לביטול."
   },
   "completionTracking": {
     "title": "מעקב השלמה",
@@ -169,6 +175,41 @@
     "lastUpdate": "עדכון אחרון",
     "calculationFormula": "נוסחת חישוב",
     "formula": "חוב = (מחיר × כמות × (אחוז נוכחי - אחוז קודם)) ÷ 100"
+  },
+  "notifications": {
+    "title": "התראות",
+    "subtitle": "הצג וניהול כל ההתראות",
+    "noNotifications": "אין התראות",
+    "noUnreadNotifications": "אין התראות שלא נקראו",
+    "markAllRead": "סמן הכל כנקרא",
+    "markAsRead": "סמן כנקרא",
+    "delete": "מחק",
+    "viewAll": "הצג את כל ההתראות",
+    "viewDetails": "הצג פרטים",
+    "all": "הכל",
+    "unread": "לא נקרא",
+    "justNow": "עכשיו",
+    "minutesAgo": "דקות",
+    "hoursAgo": "שעות",
+    "daysAgo": "ימים",
+    "weeksAgo": "שבועות",
+    "monthsAgo": "חודשים",
+    "typeInfo": "מידע",
+    "typeSuccess": "הצלחה",
+    "typeWarning": "אזהרה",
+    "typeError": "שגיאה",
+    "welcome": "ברוך הבא!",
+    "welcomeMessage": "התחברות הצליחה. ברוך הבא למערכת Bunyan 360",
+    "areaAdded": "אזור חדש נוסף",
+    "areaUpdated": "אזור עודכן",
+    "companyAdded": "חברה חדשה נוספה",
+    "companyUpdated": "חברה עודכנה",
+    "projectAdded": "פרויקט חדש נוסף",
+    "projectUpdated": "פרויקט עודכן",
+    "serviceAdded": "שירות חדש נוסף",
+    "serviceUpdated": "שירות עודכן",
+    "buildingAdded": "בניין חדש נוסף",
+    "invoiceCreated": "חשבונית חדשה נוצרה"
   }
 }
 

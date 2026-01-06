@@ -312,22 +312,6 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
           ))}
         </div>
       )}
-
-      {/* Delete Confirmation Modal */}
-      <ConfirmModal
-        isOpen={showDeleteModal}
-        onClose={() => {
-          setShowDeleteModal(false)
-          setAreaToDelete(null)
-        }}
-        onConfirm={handleConfirmDelete}
-        title={t('areas.confirmDeleteTitle', 'تأكيد الحذف')}
-        message={areaToDelete ? t('areas.confirmDeleteMessage', `هل أنت متأكد من حذف المنطقة "${areaToDelete.name}"؟ لا يمكن التراجع عن هذا الإجراء.`) : ''}
-        confirmText={t('common.delete', 'حذف')}
-        cancelText={t('common.cancel', 'إلغاء')}
-        type="danger"
-        loading={deletingId !== null}
-      />
     </div>
   )
 }

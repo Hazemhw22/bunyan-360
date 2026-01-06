@@ -6,6 +6,7 @@ import { useAreas } from '@/hooks/useAreas'
 import { useCompanies } from '@/hooks/useCompanies'
 import Input from '@/components/shared/Input'
 import Button from '@/components/shared/Button'
+import { createNotification } from '@/lib/notifications'
 
 interface ProjectFormProps {
   projectId?: string
@@ -69,8 +70,15 @@ export default function ProjectForm({ projectId, onSuccess, onCancel }: ProjectF
           .eq('id', projectId) as any)
 
         if (error) throw error
+
+        await createNotification({
+          title: 'تم تحديث المشروع',
+          message: `تم تحديث المشروع "${name}" بنجاح`,
+          type: 'success',
+          link: `/projects/${projectId}`,
+        })
       } else {
-        const { error } = await (supabase
+        const { data, error } = await (supabase
           .from('projects')
           .insert([
             {
@@ -79,9 +87,18 @@ export default function ProjectForm({ projectId, onSuccess, onCancel }: ProjectF
               company_id: companyId,
               status,
             },
-          ] as never) as any)
+          ] as never)
+          .select()
+          .single() as any)
 
         if (error) throw error
+
+        await createNotification({
+          title: 'تم إضافة مشروع جديد',
+          message: `تم إضافة المشروع "${name}" بنجاح`,
+          type: 'success',
+          link: data?.id ? `/projects/${data.id}` : '/projects',
+        })
       }
 
       onSuccess()
