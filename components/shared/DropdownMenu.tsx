@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect, ReactNode } from 'react'
+import { createPortal } from 'react-dom'
+import { useTranslation } from 'react-i18next'
 
 interface DropdownMenuProps {
   trigger: ReactNode
@@ -9,8 +11,19 @@ interface DropdownMenuProps {
 }
 
 export default function DropdownMenu({ trigger, children, align = 'end' }: DropdownMenuProps) {
+  const { i18n } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
+  const [position, setPosition] = useState({ top: 0, right: 0, left: 0 })
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLDivElement>(null)
+  
+  // Check if current language is RTL
+  const isRTL = i18n.language === 'ar' || i18n.language === 'he'
+  
+  // In RTL: 'end' means left, 'start' means right
+  // In LTR: 'end' means right, 'start' means left
+  // So if align='end', we want right in LTR and left in RTL
+  const actualAlign = isRTL ? (align === 'end' ? 'start' : 'end') : align
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -21,23 +34,44 @@ export default function DropdownMenu({ trigger, children, align = 'end' }: Dropd
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside)
+      // Calculate position when opening
+      if (triggerRef.current) {
+        const rect = triggerRef.current.getBoundingClientRect()
+        setPosition({
+          top: rect.bottom + window.scrollY + 8,
+          right: window.innerWidth - rect.right + window.scrollX,
+          left: rect.left + window.scrollX,
+        })
+      }
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isOpen])
+  }, [isOpen, actualAlign])
+
+  const dropdownContent = isOpen && typeof window !== 'undefined' ? (
+    createPortal(
+      <div
+        ref={dropdownRef}
+        className="fixed w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-[9999]"
+        style={{
+          top: `${position.top}px`,
+          [actualAlign === 'end' ? 'right' : 'left']: `${actualAlign === 'end' ? position.right : position.left}px`,
+        }}
+      >
+        {children}
+      </div>,
+      document.body
+    )
+  ) : null
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      <div onClick={() => setIsOpen(!isOpen)}>{trigger}</div>
-      {isOpen && (
-        <div
-          className={`absolute ${align === 'start' ? 'left-0' : 'right-0'} mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50`}
-        >
-          {children}
-        </div>
-      )}
+    <div className="relative">
+      <div ref={triggerRef} onClick={() => setIsOpen(!isOpen)}>
+        {trigger}
+      </div>
+      {dropdownContent}
     </div>
   )
 }
