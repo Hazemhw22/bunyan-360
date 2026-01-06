@@ -13,7 +13,7 @@ interface HeaderProps {
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [userRole, setUserRole] = useState<string>('System Admin')
   const [showDropdown, setShowDropdown] = useState(false)
@@ -21,6 +21,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const dropdownRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
   const router = useRouter()
+  const isRTL = i18n.language === 'ar' || i18n.language === 'he'
 
   useEffect(() => {
     const getUser = async () => {
@@ -136,7 +137,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
             {/* Dropdown Menu */}
             {showDropdown && (
-              <div className="absolute left-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+              <div className={`absolute ${isRTL ? 'left-0' : 'right-0'} mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50`}>
                 <div className="py-2">
                   <button className="w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 flex-row-reverse">
                     <UserCircle size={18} className="text-gray-600 dark:text-gray-400" />

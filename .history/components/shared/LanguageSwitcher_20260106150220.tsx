@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react'
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation()
   const [mounted, setMounted] = useState(false)
-  const isRTL = i18n.language === 'ar' || i18n.language === 'he'
 
   useEffect(() => {
     setMounted(true)
@@ -49,12 +48,12 @@ export default function LanguageSwitcher() {
           {currentLanguage.flag}
         </span>
       </button>
-      <div className={`absolute ${isRTL ? 'left-0' : 'right-0'} top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50`}>
+      <div className="absolute end-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
         {languages.map((lang) => (
           <button
             key={lang.code}
             onClick={() => changeLanguage(lang.code)}
-            className={`w-full text-start px-4 py-2 text-sm flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${
+            className={`w-full text-right px-4 py-2 text-sm flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${
               i18n.language === lang.code
                 ? 'bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
                 : 'text-gray-700 dark:text-gray-300'
