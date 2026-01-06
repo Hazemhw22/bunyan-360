@@ -20,7 +20,7 @@ export default function LayoutWithSidebar({ children }: { children: React.ReactN
   }, [])
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 w-full max-w-full overflow-x-hidden">
       {/* Desktop Sidebar */}
       <Sidebar />
       
@@ -30,9 +30,9 @@ export default function LayoutWithSidebar({ children }: { children: React.ReactN
         onClose={() => setIsMobileMenuOpen(false)}
       />
       
-      <div className="flex-1 flex flex-col lg:mr-0">
+      <div className="flex-1 flex flex-col w-full min-w-0">
         <Header onMenuClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 overflow-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 overflow-auto w-full max-w-full">
           {children}
         </main>
       </div>

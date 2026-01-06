@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { createClient } from '@/lib/supabaseClient'
 import { Service, Building, Project } from '@/types/database'
 import Button from '@/components/shared/Button'
@@ -13,6 +14,7 @@ interface ServiceWithRelations extends Service {
 }
 
 export default function CompletionTrackingPage() {
+  const { t } = useTranslation()
   const [services, setServices] = useState<ServiceWithRelations[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -124,43 +126,43 @@ export default function CompletionTrackingPage() {
       }
 
       await fetchServices()
-      alert('تم حفظ التحديثات بنجاح')
+      alert(t('common.saveSuccess', 'Updates saved successfully'))
     } catch (error) {
       console.error('Error saving updates:', error)
-      alert('حدث خطأ أثناء حفظ التحديثات')
+      alert(t('common.saveError', 'Error saving updates'))
     } finally {
       setSaving(false)
     }
   }
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">جاري التحميل...</div>
+    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">{t('common.loading')}</div>
   }
 
   return (
     <div>
       <div className="mb-4 lg:mb-6">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">تتبع الإنجاز</h1>
-        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">تحديث نسب الإنجاز وحساب المستحقات</p>
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">{t('completionTracking.title')}</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">{t('completionTracking.subtitle')}</p>
       </div>
 
       <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 mb-4 lg:mb-6">
         <p className="text-sm text-blue-800 dark:text-blue-300">
-          <span className="font-bold">معادلة الحساب:</span> المستحق = (السعر × الكمية × (النسبة الحالية - النسبة السابقة)) ÷ 100
+          <span className="font-bold">{t('completionTracking.calculationFormula')}:</span> {t('completionTracking.formula')}
         </p>
       </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 sm:gap-3 mb-4 lg:mb-6">
         <Button onClick={handleSave} disabled={saving} className="w-full sm:w-auto justify-center sm:justify-start">
           <Save size={14} className="ml-1 sm:ml-1.5" />
-          <span className="text-xs">{saving ? 'جاري الحفظ...' : 'حفظ التحديثات'}</span>
+          <span className="text-xs">{saving ? t('completionTracking.saving') : t('completionTracking.saveUpdates')}</span>
         </Button>
         <select
           value={selectedBuilding}
           onChange={(e) => setSelectedBuilding(e.target.value)}
           className="px-2.5 py-1.5 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
         >
-          <option value="all">جميع البنايات</option>
+          <option value="all">{t('completionTracking.allBuildings')}</option>
           {buildings.map((building) => (
             <option key={building.id} value={building.id}>
               {building.building_code}
@@ -175,25 +177,25 @@ export default function CompletionTrackingPage() {
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               <th className="px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                الخدمة
+                {t('completionTracking.service')}
               </th>
               <th className="hidden md:table-cell px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                البناية
+                {t('completionTracking.building')}
               </th>
               <th className="hidden lg:table-cell px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                السعر الإجمالي
+                {t('completionTracking.totalPrice')}
               </th>
               <th className="hidden lg:table-cell px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                النسبة السابقة
+                {t('completionTracking.previousPercentage')}
               </th>
               <th className="px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                النسبة الحالية
+                {t('completionTracking.currentPercentage')}
               </th>
               <th className="px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                المستحق الحالي
+                {t('completionTracking.currentDue')}
               </th>
               <th className="hidden md:table-cell px-3 lg:px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                آخر تحديث
+                {t('completionTracking.lastUpdate')}
               </th>
             </tr>
           </thead>
@@ -201,7 +203,7 @@ export default function CompletionTrackingPage() {
             {services.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-6 py-4 text-center text-gray-600 dark:text-gray-400">
-                  لا توجد خدمات
+                  {t('common.noData')}
                 </td>
               </tr>
             ) : (
@@ -219,17 +221,17 @@ export default function CompletionTrackingPage() {
                   <tr key={service.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                     <td className="px-3 lg:px-6 py-4 text-sm">
                       <div className="font-medium text-gray-900 dark:text-gray-100">{service.description}</div>
-                      <div className="text-gray-600 dark:text-gray-500 text-xs">مقطوعية</div>
+                      <div className="text-gray-600 dark:text-gray-500 text-xs">{t('services.lumpSum')}</div>
                     </td>
                     <td className="hidden md:table-cell px-3 lg:px-6 py-4 text-sm">
                       <div>
                         <div className="font-medium text-gray-900 dark:text-gray-100">
-                          {service.building?.building_code === 'الرئيسية'
-                            ? 'البناية الرئيسية'
-                            : `البناية ${service.building?.building_code}`}
+                          {service.building?.building_code === 'الرئيسية' || service.building?.building_code === 'Main'
+                            ? t('buildings.mainBuilding')
+                            : `${t('buildings.building')} ${service.building?.building_code}`}
                         </div>
                         <div className="text-gray-600 dark:text-gray-500 text-xs">
-                          {service.building?.project?.name || '-'}
+                          {service.building?.project?.name || t('common.noProject')}
                         </div>
                       </div>
                     </td>
@@ -260,8 +262,8 @@ export default function CompletionTrackingPage() {
                     </td>
                     <td className="hidden md:table-cell px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-400">
                       {service.updated_at
-                        ? `${formatDate(service.updated_at, 'ar-SA')} - م. أحمد الصالح`
-                        : 'لا يوجد'}
+                        ? `${formatDate(service.updated_at, 'ar-SA')} - Eng. Ahmed Al-Saleh`
+                        : t('common.noUpdate')}
                     </td>
                   </tr>
                 )

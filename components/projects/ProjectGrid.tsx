@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useProjects } from '@/hooks/useProjects'
 import { createClient } from '@/lib/supabaseClient'
 import { FolderKanban, Building2 } from 'lucide-react'
@@ -20,6 +21,7 @@ interface ProjectWithStats {
 }
 
 export default function ProjectGrid() {
+  const { t } = useTranslation()
   const { projects, loading, error } = useProjects()
   const [projectsWithStats, setProjectsWithStats] = useState<ProjectWithStats[]>([])
   const [loadingStats, setLoadingStats] = useState(true)
@@ -81,18 +83,18 @@ export default function ProjectGrid() {
   }
 
   if (loading || loadingStats) {
-    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">جاري التحميل...</div>
+    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">{t('common.loading')}</div>
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-600 dark:text-red-400">خطأ: {error.message}</div>
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">{t('common.error', 'Error')}: {error.message}</div>
   }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
       {projectsWithStats.length === 0 ? (
         <div className="col-span-full text-center py-8 text-gray-600 dark:text-gray-400">
-          لا توجد مشاريع.
+          {t('projects.noProjects')}
         </div>
       ) : (
         projectsWithStats.map((project) => (
@@ -115,7 +117,7 @@ export default function ProjectGrid() {
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
                     }`}
                   >
-                    {project.status === 'active' ? 'نشط' : project.status === 'completed' ? 'مكتمل' : 'متوقف'}
+                    {project.status === 'active' ? t('projects.status.active') : project.status === 'completed' ? t('projects.status.completed') : t('projects.status.onHold')}
                   </span>
                 </div>
               </div>
@@ -124,20 +126,20 @@ export default function ProjectGrid() {
             {/* Project Info */}
             <div className="space-y-2 mb-4 text-sm text-gray-700 dark:text-gray-400">
               <p>
-                <span className="font-medium">المنطقة:</span> {project.area?.name || 'غير محدد'}
+                <span className="font-medium">{t('projects.area')}:</span> {project.area?.name || t('projects.notSpecified')}
               </p>
               <p>
-                <span className="font-medium">الشركة:</span> {project.company?.name || 'غير محدد'}
+                <span className="font-medium">{t('projects.company')}:</span> {project.company?.name || t('projects.notSpecified')}
               </p>
               <p>
-                <span className="font-medium">التاريخ:</span> {formatDate(project.created_at, 'ar-SA')}
+                <span className="font-medium">{t('projects.date')}:</span> {formatDate(project.created_at, 'ar-SA')}
               </p>
             </div>
 
             {/* Stats */}
             <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">القيمة الإجمالية</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('projects.totalValue')}</p>
                 <p className="text-xl font-bold text-gray-900 dark:text-gray-100">
                   {formatCurrency(project.totalValue, 'ILS')}
                 </p>
@@ -146,12 +148,12 @@ export default function ProjectGrid() {
                 <div className="flex items-center gap-2">
                   <Building2 size={16} className="text-gray-500" />
                   <span className="text-sm text-gray-700 dark:text-gray-400">
-                    {project.buildingsCount} {project.buildingsCount === 1 ? 'بناية' : 'بناية'}
+                    {project.buildingsCount} {project.buildingsCount === 1 ? t('projects.buildings') : t('projects.buildings')}
                   </span>
                 </div>
                 <Link href={`/projects/${project.id}`} className="w-full sm:w-auto">
                   <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs sm:text-sm">
-                    عرض البنايات
+                    {t('projects.viewBuildings')}
                   </Button>
                 </Link>
               </div>

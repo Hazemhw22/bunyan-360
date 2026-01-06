@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -18,20 +19,21 @@ import {
 } from 'lucide-react'
 import ProjectLogo from './ProjectLogo'
 
-const menuItems = [
-  { href: '/dashboard', label: 'لوحة التحكم', icon: LayoutDashboard },
-  { href: '/areas', label: 'المناطق', icon: MapPin },
-  { href: '/projects', label: 'المشاريع', icon: FolderKanban },
-  { href: '/buildings', label: 'البنايات', icon: Building2 },
-  { href: '/services', label: 'الخدمات', icon: Wrench },
-  { href: '/companies', label: 'الشركات', icon: Building2 },
-  { href: '/completion-tracking', label: 'تتبع الإنجاز', icon: TrendingUp },
-  { href: '/invoices', label: 'الفواتير', icon: FileText },
-]
-
 export default function Sidebar() {
+  const { t } = useTranslation()
   const pathname = usePathname()
   const [isCollapsed, setIsCollapsed] = useState(false)
+
+  const menuItems = [
+    { href: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
+    { href: '/areas', labelKey: 'nav.areas', icon: MapPin },
+    { href: '/projects', labelKey: 'nav.projects', icon: FolderKanban },
+    { href: '/buildings', labelKey: 'nav.buildings', icon: Building2 },
+    { href: '/services', labelKey: 'nav.services', icon: Wrench },
+    { href: '/companies', labelKey: 'nav.companies', icon: Building2 },
+    { href: '/completion-tracking', labelKey: 'nav.completionTracking', icon: TrendingUp },
+    { href: '/invoices', labelKey: 'nav.invoices', icon: FileText },
+  ]
 
   useEffect(() => {
     // On mobile, always start collapsed and hidden
@@ -60,7 +62,7 @@ export default function Sidebar() {
   return (
     <>
       <div
-        className={`hidden lg:flex bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 min-h-screen flex-col border-r border-gray-200 dark:border-gray-700 transition-all duration-300 static z-50 ${
+        className={`hidden lg:flex bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 min-h-screen flex-col border-r border-gray-200 dark:border-gray-700 transition-all duration-300 static z-50 flex-shrink-0 ${
           isCollapsed ? 'w-20' : 'w-64'
         }`}
       >
@@ -70,7 +72,7 @@ export default function Sidebar() {
             <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center w-full' : ''}`}>
               <ProjectLogo />
               {!isCollapsed && (
-                <h1 className="text-lg lg:text-xl font-bold text-gray-800 dark:text-gray-200">بنيان 360</h1>
+                <h1 className="text-lg lg:text-xl font-bold text-gray-800 dark:text-gray-200">Bunyan 360</h1>
               )}
             </div>
             <div className="flex items-center gap-2">
@@ -107,10 +109,10 @@ export default function Sidebar() {
                       ? 'bg-green-600 dark:bg-green-700 text-white'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
-                  title={isCollapsed ? item.label : ''}
+                  title={isCollapsed ? t(item.labelKey) : ''}
                 >
                   <Icon size={20} />
-                  {!isCollapsed && <span>{item.label}</span>}
+                  {!isCollapsed && <span>{t(item.labelKey)}</span>}
                 </Link>
               </li>
             )
@@ -125,10 +127,10 @@ export default function Sidebar() {
           className={`flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors ${
             isCollapsed ? 'justify-center' : ''
           }`}
-          title={isCollapsed ? 'الإعدادات' : ''}
+          title={isCollapsed ? t('common.settings', 'Settings') : ''}
         >
           <Settings size={20} />
-          {!isCollapsed && <span>الإعدادات</span>}
+          {!isCollapsed && <span>{t('common.settings', 'Settings')}</span>}
         </Link>
       </div>
       </div>

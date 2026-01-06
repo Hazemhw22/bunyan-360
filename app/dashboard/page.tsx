@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { createClient } from '@/lib/supabaseClient'
 import { Invoice, Project, Company, Area } from '@/types/database'
 import { formatCurrency, formatDate } from '@/lib/utils'
@@ -9,6 +10,7 @@ import { TrendingUp, FileText, Wallet, FolderKanban, MapPin } from 'lucide-react
 import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 
 export default function DashboardPage() {
+  const { t } = useTranslation()
   const [stats, setStats] = useState({
     totalProgress: 45,
     pendingAmount: 0,
@@ -93,9 +95,9 @@ export default function DashboardPage() {
       }
 
       const statusLabels: { [key: string]: string } = {
-        active: 'نشطة',
-        completed: 'مكتملة',
-        on_hold: 'معلقة',
+        active: t('dashboard.status.active'),
+        completed: t('dashboard.status.completed'),
+        on_hold: t('dashboard.status.onHold'),
       }
 
       const projectStatusChartData = Object.entries(statusCounts)
@@ -240,14 +242,14 @@ export default function DashboardPage() {
   }
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">جاري التحميل...</div>
+    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">{t('common.loading')}</div>
   }
 
   return (
     <div>
       <div className="mb-4 lg:mb-6">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">لوحة التحكم</h1>
-        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">نظرة عامة على المشاريع والفواتير والإحصائيات</p>
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">{t('dashboard.title')}</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">{t('dashboard.subtitle')}</p>
       </div>
 
       {/* Top Stats Cards */}
@@ -255,11 +257,11 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">نسبة الإنجاز الكلية</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">{t('dashboard.totalProgress')}</p>
               <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.totalProgress.toFixed(0)}%</p>
               <p className="text-green-600 dark:text-green-400 text-sm mt-2 flex items-center gap-1">
                 <TrendingUp size={14} />
-                5% من الشهر الماضي
+                5% {t('dashboard.fromLastMonth')}
               </p>
             </div>
             <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">
@@ -271,10 +273,10 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">المبالغ المعلقة</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">{t('dashboard.pendingAmount')}</p>
               <p className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(stats.pendingAmount, 'ILS')}</p>
               <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
-                {latestInvoices.filter((i) => i.status === 'sent' || i.status === 'draft').length} فاتورة معلقة
+                {latestInvoices.filter((i) => i.status === 'sent' || i.status === 'draft').length} {t('dashboard.pendingInvoices')}
               </p>
             </div>
             <div className="bg-orange-100 dark:bg-orange-900 p-3 rounded-lg">
@@ -286,11 +288,11 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">إجمالي الإيرادات</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">{t('dashboard.totalRevenue')}</p>
               <p className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(stats.totalRevenue, 'ILS')}</p>
               <p className="text-green-600 dark:text-green-400 text-sm mt-2 flex items-center gap-1">
                 <TrendingUp size={14} />
-                8% من الشهر الماضي
+                8% {t('dashboard.fromLastMonth')}
               </p>
             </div>
             <div className="bg-green-100 dark:bg-green-900 p-3 rounded-lg">
@@ -302,11 +304,11 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">المشاريع النشطة</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">{t('dashboard.activeProjects')}</p>
               <p className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.activeProjects}</p>
               <p className="text-green-600 dark:text-green-400 text-sm mt-2 flex items-center gap-1">
                 <TrendingUp size={14} />
-                12% من الشهر الماضي
+                12% {t('dashboard.fromLastMonth')}
               </p>
             </div>
             <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-lg">
@@ -321,7 +323,7 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">إجمالي الفواتير</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">{t('dashboard.totalInvoices')}</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.totalInvoices}</p>
             </div>
             <FileText className="text-blue-600 dark:text-blue-400" size={24} />
@@ -331,7 +333,7 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">إجمالي المشاريع</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">{t('dashboard.totalProjects')}</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.totalProjects}</p>
             </div>
             <FolderKanban className="text-purple-600 dark:text-purple-400" size={24} />
@@ -341,7 +343,7 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">المناطق</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">{t('dashboard.areas')}</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.totalAreas}</p>
             </div>
             <MapPin className="text-green-600 dark:text-green-400" size={24} />
@@ -356,15 +358,15 @@ export default function DashboardPage() {
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <FileText className="text-blue-600 dark:text-blue-400" size={20} />
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">أحدث الفواتير</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('dashboard.latestInvoices')}</h2>
             </div>
             <Link href="/invoices" className="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-              عرض الكل
+              {t('dashboard.viewAll')}
             </Link>
           </div>
           <div className="p-4 lg:p-6">
             {latestInvoices.length === 0 ? (
-              <p className="text-gray-600 dark:text-gray-400 text-center py-4">لا توجد فواتير</p>
+              <p className="text-gray-600 dark:text-gray-400 text-center py-4">{t('dashboard.noInvoices')}</p>
             ) : (
               <div className="space-y-4">
                 {latestInvoices.map((invoice) => (
@@ -397,15 +399,15 @@ export default function DashboardPage() {
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <FolderKanban className="text-purple-600 dark:text-purple-400" size={20} />
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">المشاريع النشطة</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('dashboard.activeProjects')}</h2>
             </div>
             <Link href="/projects" className="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-              عرض الكل
+              {t('dashboard.viewAll')}
             </Link>
           </div>
           <div className="p-4 lg:p-6">
             {activeProjects.length === 0 ? (
-              <p className="text-gray-600 dark:text-gray-400 text-center py-4">لا توجد مشاريع نشطة</p>
+              <p className="text-gray-600 dark:text-gray-400 text-center py-4">{t('dashboard.noActiveProjects')}</p>
             ) : (
               <div className="space-y-4">
                 {activeProjects.map((project) => {
@@ -443,9 +445,9 @@ export default function DashboardPage() {
           {projectStatusData.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
               <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">حالة المشاريع</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('dashboard.projectStatus')}</h2>
                 <Link href="/projects" className="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-                  ← عرض الكل
+                  ← {t('dashboard.viewAll')}
                 </Link>
               </div>
               <div className="p-4 lg:p-6">
@@ -491,9 +493,9 @@ export default function DashboardPage() {
           {revenueTrendData.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
               <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">اتجاه الإيرادات</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('dashboard.revenueTrend')}</h2>
                 <Link href="/invoices" className="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-                  ← عرض التفاصيل
+                  ← {t('dashboard.viewDetails')}
                 </Link>
               </div>
               <div className="p-4 lg:p-6">

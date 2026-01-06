@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { createClient } from '@/lib/supabaseClient'
 import { Invoice, Company, Project, Building } from '@/types/database'
 import { formatCurrency, formatDate } from '@/lib/utils'
@@ -9,6 +10,7 @@ import Button from '@/components/shared/Button'
 import { Plus, FileText, X, CheckCircle, DollarSign } from 'lucide-react'
 
 export default function InvoicesPage() {
+  const { t } = useTranslation()
   const [invoices, setInvoices] = useState<(Invoice & { company: Company | null; project: Project | null; building: Building | null })[]>([])
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
@@ -84,30 +86,30 @@ export default function InvoicesPage() {
   }
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">جاري التحميل...</div>
+    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">{t('common.loading')}</div>
   }
 
   return (
     <div>
       <div className="mb-4 lg:mb-6">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة الفواتير</h1>
-        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">إنشاء وتتبع فواتير المشاريع</p>
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">{t('invoices.title')}</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">{t('invoices.subtitle')}</p>
       </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 sm:gap-3 mb-4 lg:mb-6">
         <Button className="w-full sm:w-auto justify-center sm:justify-start">
           <Plus size={14} className="ml-1 sm:ml-1.5" />
-          <span className="text-xs">فاتورة جديدة</span>
+          <span className="text-xs">{t('invoices.newInvoice')}</span>
         </Button>
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <select className="px-2.5 py-1.5 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto">
-            <option>جميع الحالات</option>
-            <option>مدفوعة</option>
-            <option>قيد الانتظار</option>
-            <option>مسودة</option>
+            <option>{t('invoices.allStatuses')}</option>
+            <option>{t('invoices.paid')}</option>
+            <option>{t('invoices.pending')}</option>
+            <option>{t('invoices.draft')}</option>
           </select>
           <select className="px-2.5 py-1.5 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto">
-            <option>جميع الشركات</option>
+            <option>{t('invoices.allCompanies')}</option>
           </select>
         </div>
       </div>
@@ -118,16 +120,16 @@ export default function InvoicesPage() {
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                رقم الفاتورة
+                {t('invoices.invoiceNumber')}
               </th>
               <th className="hidden sm:table-cell px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                المبلغ الإجمالي
+                {t('invoices.totalAmount')}
               </th>
               <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                الحالة
+                {t('invoices.status')}
               </th>
               <th className="px-3 lg:px-6 py-2.5 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                الإجراءات
+                {t('common.actions')}
               </th>
             </tr>
           </thead>
@@ -135,7 +137,7 @@ export default function InvoicesPage() {
             {invoices.length === 0 ? (
               <tr>
                 <td colSpan={4} className="px-3 lg:px-6 py-3 text-center text-gray-600 dark:text-gray-400">
-                  لا توجد فواتير.
+                  {t('dashboard.noInvoices')}
                 </td>
               </tr>
             ) : (
@@ -161,7 +163,7 @@ export default function InvoicesPage() {
                             : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
                         }`}
                       >
-                        {invoice.status === 'paid' ? 'مدفوعة' : invoice.status === 'sent' ? 'قيد الانتظار' : 'مسودة'}
+                        {invoice.status === 'paid' ? t('invoices.paid') : invoice.status === 'sent' ? t('invoices.pending') : t('invoices.draft')}
                       </span>
                     </td>
                     <td className="px-3 lg:px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
@@ -169,7 +171,7 @@ export default function InvoicesPage() {
                         href={`/invoices/${invoice.id}`}
                         className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 px-2 py-1 rounded transition-colors text-xs sm:text-sm"
                       >
-                        عرض
+                        {t('invoices.view')}
                       </Link>
                     </td>
                   </tr>

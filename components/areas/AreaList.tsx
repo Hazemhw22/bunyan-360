@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAreas } from '@/hooks/useAreas'
 import { createClient } from '@/lib/supabaseClient'
 import Button from '@/components/shared/Button'
@@ -20,6 +21,7 @@ interface AreaWithStats {
 }
 
 export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
+  const { t } = useTranslation()
   const { areas, loading, error } = useAreas()
   const [areasWithStats, setAreasWithStats] = useState<AreaWithStats[]>([])
   const [loadingStats, setLoadingStats] = useState(true)
@@ -70,30 +72,30 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
   }
 
   if (loading || loadingStats) {
-    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">جاري التحميل...</div>
+    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">{t('common.loading')}</div>
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-600 dark:text-red-400">خطأ: {error.message}</div>
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">{t('common.error', 'Error')}: {error.message}</div>
   }
 
   return (
     <div>
       <div className="mb-4 lg:mb-6">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة المناطق</h1>
-        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">إدارة المناطق الجغرافية للمشاريع</p>
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">{t('areas.title')}</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">{t('areas.subtitle')}</p>
       </div>
 
       <div className="mb-4 lg:mb-6">
         <Button onClick={onAddClick} className="w-full sm:w-auto justify-center sm:justify-start">
           <Plus size={14} className="ml-1 sm:ml-1.5" />
-          <span className="text-xs">إضافة منطقة</span>
+          <span className="text-xs">{t('areas.addArea')}</span>
         </Button>
       </div>
 
       {areasWithStats.length === 0 ? (
         <div className="text-center py-8 text-gray-600 dark:text-gray-400">
-          لا توجد مناطق. انقر "إضافة منطقة" لإنشاء واحدة.
+          {t('common.noAreas')}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
@@ -115,7 +117,7 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
               {/* Area Info */}
               <div className="mb-4 mt-8">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">{area.name}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{area.city || 'بدون مدينة'}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{area.city || t('areas.noCity')}</p>
               </div>
 
               {/* Stats */}
@@ -123,11 +125,11 @@ export default function AreaList({ onAddClick, onEditClick }: AreaListProps) {
                 <div className="flex items-center gap-2 text-gray-700 dark:text-gray-400">
                   <FileText size={16} />
                   <span className="text-sm font-medium">
-                    {area.projectsCount} {area.projectsCount === 1 ? 'مشروع' : 'مشروع'}
+                    {area.projectsCount} {area.projectsCount === 1 ? t('areas.project') : t('areas.projects')}
                   </span>
                 </div>
                 <span className="bg-green-500 dark:bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                  {area.activeProjectsCount} نشط
+                  {area.activeProjectsCount} {t('areas.active')}
                 </span>
               </div>
             </div>

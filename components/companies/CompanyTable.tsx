@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useCompanies } from '@/hooks/useCompanies'
 import { createClient } from '@/lib/supabaseClient'
 import Button from '@/components/shared/Button'
@@ -26,6 +27,7 @@ interface CompanyWithStats {
 }
 
 export default function CompanyTable({ onAddClick, onEditClick }: CompanyTableProps) {
+  const { t } = useTranslation()
   const { companies, loading, error } = useCompanies()
   const [companiesWithStats, setCompaniesWithStats] = useState<CompanyWithStats[]>([])
   const [loadingStats, setLoadingStats] = useState(true)
@@ -83,31 +85,31 @@ export default function CompanyTable({ onAddClick, onEditClick }: CompanyTablePr
   }
 
   if (loading || loadingStats) {
-    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">جاري التحميل...</div>
+    return <div className="text-center py-8 text-gray-700 dark:text-gray-300">{t('common.loading')}</div>
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-600 dark:text-red-400">خطأ: {error.message}</div>
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">{t('common.error', 'Error')}: {error.message}</div>
   }
 
   return (
     <div>
       <div className="mb-4 lg:mb-6">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">إدارة الشركات</h1>
-        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">إدارة بيانات الشركات والعملاء</p>
+        <h1 className="text-2xl lg:text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">{t('companies.title')}</h1>
+        <p className="text-sm lg:text-base text-gray-700 dark:text-gray-400">{t('companies.subtitle')}</p>
       </div>
 
       <div className="mb-4 lg:mb-6">
         <Button onClick={onAddClick} className="w-full sm:w-auto justify-center sm:justify-start">
           <Plus size={14} className="ml-1 sm:ml-1.5" />
-          <span className="text-xs">إضافة شركة</span>
+          <span className="text-xs">{t('companies.addCompany')}</span>
         </Button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {companiesWithStats.length === 0 ? (
           <div className="col-span-full text-center py-8 text-gray-600 dark:text-gray-400">
-            لا توجد شركات. انقر "إضافة شركة" لإنشاء واحدة.
+            {t('companies.noCompanies')}
           </div>
         ) : (
           companiesWithStats.map((company) => (
@@ -130,7 +132,7 @@ export default function CompanyTable({ onAddClick, onEditClick }: CompanyTablePr
                 <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{company.name}</h3>
                 {company.tax_number && (
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                    الرقم الضريبي: {company.tax_number}
+                    {t('companies.taxNumber')}: {company.tax_number}
                   </p>
                 )}
               </div>
@@ -160,7 +162,7 @@ export default function CompanyTable({ onAddClick, onEditClick }: CompanyTablePr
               {/* Stats */}
               <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">مدفوع</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('companies.paid')}</p>
                   <p className="text-lg font-bold text-green-600 dark:text-green-400">
                     {formatCurrency(company.paidAmount, 'ILS')}
                   </p>
@@ -170,11 +172,11 @@ export default function CompanyTable({ onAddClick, onEditClick }: CompanyTablePr
                     <FileText size={16} className="text-gray-500" />
                     <div>
                       <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                        {company.invoicesCount} {company.invoicesCount === 1 ? 'فاتورة' : 'فاتورة'}
+                        {company.invoicesCount} {company.invoicesCount === 1 ? t('companies.invoice') : t('companies.invoices')}
                       </p>
                       {company.pendingInvoicesCount > 0 && (
                         <span className="text-xs text-orange-600 dark:text-orange-400">
-                          {company.pendingInvoicesCount} معلقة
+                          {company.pendingInvoicesCount} {t('companies.pending')}
                         </span>
                       )}
                     </div>
@@ -182,7 +184,7 @@ export default function CompanyTable({ onAddClick, onEditClick }: CompanyTablePr
                   <div className="flex items-center gap-2">
                     <FileText size={16} className="text-gray-500" />
                     <span className="text-sm text-gray-700 dark:text-gray-400">
-                      {company.projectsCount} {company.projectsCount === 1 ? 'مشروع' : 'مشروع'}
+                      {company.projectsCount} {company.projectsCount === 1 ? t('companies.project') : t('companies.projects')}
                     </span>
                   </div>
                 </div>

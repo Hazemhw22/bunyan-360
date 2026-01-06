@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getServerClient } from '@/lib/supabase/server'
 import LayoutWithSidebar from '@/components/shared/LayoutWithSidebar'
+import I18nProvider from '@/components/shared/I18nProvider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -17,13 +18,15 @@ export default async function RootLayout({
   const { data: { session } } = await supabase.auth.getSession()
 
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="en" dir="ltr">
       <body>
-        {session ? (
-          <LayoutWithSidebar>{children}</LayoutWithSidebar>
-        ) : (
-          <main>{children}</main>
-        )}
+        <I18nProvider>
+          {session ? (
+            <LayoutWithSidebar>{children}</LayoutWithSidebar>
+          ) : (
+            <main>{children}</main>
+          )}
+        </I18nProvider>
       </body>
     </html>
   )

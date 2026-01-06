@@ -1,20 +1,22 @@
 'use client'
 
-import { Bell, Search, User, Globe, Sun, Moon, LogOut, UserCircle, Settings, Menu } from 'lucide-react'
+import { Bell, Search, User, Sun, Moon, LogOut, UserCircle, Settings, Menu } from 'lucide-react'
 import { createClient } from '@/lib/supabaseClient'
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from './LanguageSwitcher'
 
 interface HeaderProps {
   onMenuClick?: () => void
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
+  const { t } = useTranslation()
   const [userEmail, setUserEmail] = useState<string | null>(null)
-  const [userRole, setUserRole] = useState<string>('مدير النظام')
+  const [userRole, setUserRole] = useState<string>('System Admin')
   const [showDropdown, setShowDropdown] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
-  const [language, setLanguage] = useState<'ar' | 'en'>('ar')
   const dropdownRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
   const router = useRouter()
@@ -63,12 +65,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
     }
   }
 
-  const toggleLanguage = () => {
-    const newLang = language === 'ar' ? 'en' : 'ar'
-    setLanguage(newLang)
-    // You can implement language switching logic here
-    localStorage.setItem('language', newLang)
-  }
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -77,7 +73,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   }
 
   return (
-    <header className="bg-gray-100 dark:bg-gray-800 border-b border-r border-gray-200 dark:border-gray-700 px-4 py-4 lg:px-6 lg:p-6">
+    <header className="bg-gray-100 dark:bg-gray-800 border-b border-r border-gray-200 dark:border-gray-700 px-4 py-4 lg:px-6 lg:p-6 w-full flex-shrink-0">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 lg:gap-6 flex-row-reverse">
           {onMenuClick && (
@@ -103,14 +99,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-2 lg:gap-4 flex-row-reverse">
-          {/* Language Toggle */}
-          <button
-            onClick={toggleLanguage}
-            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            title={language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
-          >
-            <Globe size={20} className="text-gray-600 dark:text-gray-400" />
-          </button>
+          {/* Language Switcher */}
+          <LanguageSwitcher />
 
           {/* Theme Toggle */}
           <button
@@ -141,7 +131,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <User size={18} className="text-white" />
               </div>
               <div className="hidden sm:block text-right">
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{userEmail || 'المستخدم'}</p>
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{userEmail || 'User'}</p>
                 <p className="text-xs text-gray-600 dark:text-gray-400">{userRole}</p>
               </div>
             </button>
@@ -152,15 +142,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <div className="py-2">
                   <button className="w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 flex-row-reverse">
                     <UserCircle size={18} className="text-gray-600 dark:text-gray-400" />
-                    حسابي
+                    {t('common.myAccount', 'My Account')}
                   </button>
                   <button className="w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 flex-row-reverse">
                     <User size={18} className="text-gray-600 dark:text-gray-400" />
-                    الملف الشخصي
+                    {t('common.profile', 'Profile')}
                   </button>
                   <button className="w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 flex-row-reverse">
                     <Settings size={18} className="text-gray-600 dark:text-gray-400" />
-                    الإعدادات
+                    {t('common.settings', 'Settings')}
                   </button>
                   <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
                   <div className="flex justify-center">
@@ -169,7 +159,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                       className="w-60 text-center px-4 py-2 text-sm bg-green-600 dark:bg-green-700 text-white hover:bg-green-700 dark:hover:bg-green-800 rounded-lg flex items-center gap-3 flex-row-reverse justify-center"
                     >
                       <LogOut size={18} />
-                      تسجيل الخروج
+                      {t('nav.logout')}
                     </button>
                   </div>
                 </div>

@@ -1,10 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import AreaList from '@/components/areas/AreaList'
 import AreaForm from '@/components/areas/AreaForm'
 
 export default function AreasPage() {
+  const { t } = useTranslation()
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | undefined>(undefined)
 
@@ -32,7 +34,7 @@ export default function AreasPage() {
     return (
       <div className="max-w-2xl">
         <h1 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 text-gray-900 dark:text-gray-100">
-          {editingId ? 'تعديل المنطقة' : 'إضافة منطقة جديدة'}
+          {editingId ? t('areas.editArea') : t('areas.addNewArea')}
         </h1>
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
           <AreaForm areaId={editingId} onSuccess={handleSuccess} onCancel={handleCancel} />
