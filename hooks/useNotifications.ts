@@ -104,7 +104,7 @@ export function useNotifications() {
       if (!user) return
 
       channel = supabase
-        .channel('notifications')
+        .channel(`notifications:${user.id}`)
         .on(
           'postgres_changes',
           {
@@ -114,8 +114,16 @@ export function useNotifications() {
             filter: `user_id=eq.${user.id}`,
           },
           (payload) => {
+            console.log('Notification realtime event:', payload.eventType, payload)
             if (payload.eventType === 'INSERT') {
-              setNotifications(prev => [payload.new as Notification, ...prev])
+              const newNotification = payload.new as Notification
+              setNotifications(prev => {
+                // Check if notification already exists to avoid duplicates
+                if (prev.some(n => n.id === newNotification.id)) {
+                  return prev
+                }
+                return [newNotification, ...prev]
+              })
               setUnreadCount(prev => prev + 1)
             } else if (payload.eventType === 'UPDATE') {
               setNotifications(prev =>
@@ -128,17 +136,56 @@ export function useNotifications() {
               }
             } else if (payload.eventType === 'DELETE') {
               setNotifications(prev => prev.filter(n => n.id !== payload.old.id))
+              const deletedNotification = payload.old as Notification
+              if (!deletedNotification.read) {
+                setUnreadCount(prev => Math.max(0, prev - 1))
+              }
             }
           }
         )
-        .subscribe()
+        .subscribe((status) => {
+          console.log('Realtime subscription status:', status)
+          if (status === 'SUBSCRIBED') {
+            console.log('Successfully subscribed to notifications')
+          } else if (status === 'CHANNEL_ERROR') {
+            console.error('Realtime channel error, will use polling fallback')
+          }
+        })
     }
 
     setupRealtime()
 
+    // Listen for custom events when notifications are created
+    const handleNotificationCreated = (event: Event) => {
+      const customEvent = event as CustomEvent
+      if (customEvent.detail?.notification) {
+        const newNotification = customEvent.detail.notification as Notification
+        setNotifications(prev => {
+          // Check if notification already exists to avoid duplicates
+          if (prev.some(n => n.id === newNotification.id)) {
+            return prev
+          }
+          return [newNotification, ...prev]
+        })
+        setUnreadCount(prev => prev + 1)
+      } else {
+        // Fallback: refresh notifications if no notification data provided
+        setTimeout(() => {
+          fetchNotifications()
+        }, 300)
+      }
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('notification-created', handleNotificationCreated)
+    }
+
     return () => {
       if (channel) {
         supabase.removeChannel(channel)
+      }
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('notification-created', handleNotificationCreated)
       }
     }
   }, [])

@@ -21,7 +21,7 @@ export async function createNotification(params: CreateNotificationParams): Prom
       return
     }
 
-    const { error } = await (supabase
+    const { data, error } = await (supabase
       .from('notifications')
       .insert([
         {
@@ -32,10 +32,20 @@ export async function createNotification(params: CreateNotificationParams): Prom
           read: false,
           link: params.link || null,
         } as never,
-      ]) as any)
+      ])
+      .select()
+      .single() as any)
 
     if (error) {
       console.error('Error creating notification:', error)
+      return
+    }
+
+    // Trigger a custom event to notify all notification hooks to refresh
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('notification-created', { 
+        detail: { notification: data } 
+      }))
     }
   } catch (error) {
     console.error('Error creating notification:', error)

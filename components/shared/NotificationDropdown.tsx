@@ -12,7 +12,7 @@ export default function NotificationDropdown() {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification } = useNotifications()
+  const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification, refreshNotifications } = useNotifications()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

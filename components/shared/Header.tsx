@@ -74,9 +74,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
   }
 
   return (
-    <header className="bg-gray-100 dark:bg-gray-800 border-b border-r border-gray-200 dark:border-gray-700 px-4 py-4 lg:px-6 lg:p-6 w-full flex-shrink-0">
+    <header className="bg-gray-100 dark:bg-gray-800 border-b border-r border-gray-200 dark:border-gray-700 px-4 py-3 lg:px-6 lg:py-4 w-full flex-shrink-0">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3 lg:gap-6 flex-row-reverse">
+        <div className="flex items-center gap-3 lg:gap-4 flex-row-reverse">
           {onMenuClick && (
             <button
               onClick={onMenuClick}
@@ -94,7 +94,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <input
               type="text"
               placeholder="البحث في المشاريع، الشركات، الفواتير..."
-              className="pr-10 pl-4 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 w-64 lg:w-96 text-right text-sm lg:text-base"
+              className="pr-10 pl-4 py-1.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 w-64 lg:w-96 text-right text-sm"
             />
           </div>
         </div>
@@ -123,14 +123,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="flex items-center gap-3 pr-4 border-r border-gray-200 dark:border-gray-700 flex-row-reverse hover:opacity-80 transition-opacity"
+              className="flex items-center gap-2 pr-3 border-r border-gray-200 dark:border-gray-700 flex-row-reverse hover:opacity-80 transition-opacity"
             >
-              <div className="w-10 h-10 bg-blue-600 dark:bg-blue-700 rounded-full flex items-center justify-center">
-                <User size={18} className="text-white" />
+              <div className="w-9 h-9 bg-blue-600 dark:bg-blue-700 rounded-full flex items-center justify-center flex-shrink-0">
+                <User size={16} className="text-white" />
               </div>
               <div className="hidden sm:block text-right">
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{userEmail || 'User'}</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">{userRole}</p>
+                <p className="text-xs font-medium text-gray-800 dark:text-gray-200 leading-tight">{userEmail || 'User'}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 leading-tight">{userRole}</p>
               </div>
             </button>
 
