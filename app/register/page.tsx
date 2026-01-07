@@ -55,14 +55,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-2">Bunyan CRM</h1>
-        <h2 className="text-xl text-center text-gray-600 mb-6">Register</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 transition-colors">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-8 w-full max-w-md transition-colors">
+        <h1 className="text-3xl font-bold text-center mb-2 text-gray-900 dark:text-gray-100">Bunyan CRM</h1>
+        <h2 className="text-xl text-center text-gray-600 dark:text-gray-400 mb-6">Register</h2>
 
         <form onSubmit={handleRegister} className="space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded transition-colors">
               {error}
             </div>
           )}
@@ -99,9 +99,9 @@ export default function RegisterPage() {
           </Button>
         </form>
 
-        <p className="text-center mt-6 text-gray-600 text-sm">
+        <p className="text-center mt-6 text-gray-600 dark:text-gray-400 text-sm transition-colors">
           Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 hover:underline">
+          <Link href="/login" className="text-blue-600 dark:text-blue-400 hover:underline transition-colors">
             Login here
           </Link>
         </p>

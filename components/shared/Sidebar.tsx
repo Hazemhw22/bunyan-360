@@ -16,6 +16,7 @@ import {
   ChevronRight,
   ChevronLeft,
   X,
+  Users,
 } from 'lucide-react'
 import ProjectLogo from './ProjectLogo'
 
@@ -33,6 +34,7 @@ export default function Sidebar() {
     { href: '/companies', labelKey: 'nav.companies', icon: Building2 },
     { href: '/completion-tracking', labelKey: 'nav.completionTracking', icon: TrendingUp },
     { href: '/invoices', labelKey: 'nav.invoices', icon: FileText },
+    { href: '/users', labelKey: 'nav.users', icon: Users },
   ]
 
   useEffect(() => {

@@ -36,6 +36,7 @@
     "companies": "الشركات",
     "areas": "المناطق",
     "completionTracking": "تتبع الإنجاز",
+    "users": "المستخدمين",
     "logout": "تسجيل الخروج"
   },
   "dashboard": {
@@ -210,6 +211,66 @@
     "serviceUpdated": "تم تحديث الخدمة",
     "buildingAdded": "تم إضافة بناية جديدة",
     "invoiceCreated": "تم إنشاء فاتورة جديدة"
+  },
+  "users": {
+    "title": "إدارة المستخدمين",
+    "subtitle": "عرض وإدارة جميع المستخدمين المسجلين في النظام",
+    "user": "مستخدم",
+    "users": "مستخدمين",
+    "username": "اسم المستخدم",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "registrationDate": "تاريخ التسجيل",
+    "systemAdmin": "مدير نظام",
+    "noUsers": "لا توجد مستخدمين مسجلين",
+    "noName": "بدون اسم"
+  },
+  "myAccount": {
+    "title": "حسابي",
+    "subtitle": "عرض معلومات حسابك الشخصي",
+    "accountInfo": "معلومات الحساب",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "registrationDate": "تاريخ التسجيل",
+    "systemAdmin": "مدير نظام",
+    "notFound": "لم يتم العثور على بيانات الحساب"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "subtitle": "تحديث معلومات ملفك الشخصي",
+    "profileInfo": "معلومات الملف الشخصي",
+    "lastUpdate": "آخر تحديث",
+    "username": "اسم المستخدم",
+    "usernamePlaceholder": "أدخل اسم المستخدم",
+    "email": "البريد الإلكتروني",
+    "emailCannotChange": "لا يمكن تغيير البريد الإلكتروني",
+    "saveChanges": "حفظ التغييرات",
+    "saving": "جاري الحفظ...",
+    "updateSuccess": "تم التحديث",
+    "updateSuccessMessage": "تم تحديث معلومات الملف الشخصي بنجاح",
+    "updateError": "خطأ",
+    "updateErrorMessage": "حدث خطأ أثناء تحديث الملف الشخصي",
+    "notFound": "لم يتم العثور على بيانات الملف الشخصي"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "subtitle": "إدارة إعدادات حسابك وتفضيلاتك",
+    "appearance": "المظهر",
+    "appearanceTitle": "الوضع",
+    "darkMode": "الوضع الليلي",
+    "lightMode": "الوضع النهاري",
+    "darkModeActive": "الوضع الداكن مفعّل",
+    "lightModeActive": "الوضع الفاتح مفعّل",
+    "enableDarkMode": "تفعيل الوضع الليلي",
+    "enableLightMode": "تفعيل الوضع النهاري",
+    "modeChanged": "تم التحديث",
+    "modeChangedMessage": "تم تغيير الوضع إلى",
+    "language": "اللغة",
+    "languageTitle": "اختر اللغة المفضلة للواجهة",
+    "notifications": "الإشعارات",
+    "notificationsTitle": "إدارة إعدادات الإشعارات",
+    "emailNotifications": "إشعارات البريد الإلكتروني",
+    "systemNotifications": "إشعارات النظام"
   }
 }
 

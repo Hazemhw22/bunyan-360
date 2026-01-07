@@ -162,12 +162,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             {showDropdown && (
               <div className={`absolute ${isRTL ? 'left-0' : 'right-0'} mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50`}>
                 <div className="py-2">
-                
-                  <Link
-                    href="/my-account"
-                    onClick={() => setShowDropdown(false)}
-                    className="w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 flex-row-reverse"
-                  >
+                  <button className="w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 flex-row-reverse">
                     <UserCircle size={18} className="text-gray-600 dark:text-gray-400" />
                     {t('common.myAccount', 'My Account')}
                   </Link>

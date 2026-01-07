@@ -36,6 +36,7 @@
     "companies": "Companies",
     "areas": "Areas",
     "completionTracking": "Completion Tracking",
+    "users": "Users",
     "logout": "Logout"
   },
   "dashboard": {
@@ -210,6 +211,66 @@
     "serviceUpdated": "Service updated",
     "buildingAdded": "New building added",
     "invoiceCreated": "New invoice created"
+  },
+  "users": {
+    "title": "User Management",
+    "subtitle": "View and manage all registered users in the system",
+    "user": "user",
+    "users": "users",
+    "username": "Username",
+    "email": "Email",
+    "role": "Role",
+    "registrationDate": "Registration Date",
+    "systemAdmin": "System Admin",
+    "noUsers": "No registered users",
+    "noName": "No name"
+  },
+  "myAccount": {
+    "title": "My Account",
+    "subtitle": "View your personal account information",
+    "accountInfo": "Account Information",
+    "email": "Email",
+    "role": "Role",
+    "registrationDate": "Registration Date",
+    "systemAdmin": "System Admin",
+    "notFound": "Account information not found"
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Update your profile information",
+    "profileInfo": "Profile Information",
+    "lastUpdate": "Last Update",
+    "username": "Username",
+    "usernamePlaceholder": "Enter username",
+    "email": "Email",
+    "emailCannotChange": "Email cannot be changed",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "updateSuccess": "Updated",
+    "updateSuccessMessage": "Profile information updated successfully",
+    "updateError": "Error",
+    "updateErrorMessage": "An error occurred while updating profile",
+    "notFound": "Profile information not found"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account settings and preferences",
+    "appearance": "Appearance",
+    "appearanceTitle": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "darkModeActive": "Dark mode is enabled",
+    "lightModeActive": "Light mode is enabled",
+    "enableDarkMode": "Enable Dark Mode",
+    "enableLightMode": "Enable Light Mode",
+    "modeChanged": "Updated",
+    "modeChangedMessage": "Theme changed to",
+    "language": "Language",
+    "languageTitle": "Choose your preferred interface language",
+    "notifications": "Notifications",
+    "notificationsTitle": "Manage notification settings",
+    "emailNotifications": "Email Notifications",
+    "systemNotifications": "System Notifications"
   }
 }
 

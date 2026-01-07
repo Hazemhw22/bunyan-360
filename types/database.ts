@@ -259,6 +259,35 @@ export interface Database {
           created_at?: string
         }
       }
+      profiles: {
+        Row: {
+          id: string
+          user_id: string
+          username: string | null
+          email: string
+          role: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          username?: string | null
+          email: string
+          role?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          username?: string | null
+          email?: string
+          role?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Functions: {
       calculate_earned_value: {
@@ -283,4 +312,5 @@ export type Service = Database['public']['Tables']['services']['Row']
 export type Invoice = Database['public']['Tables']['invoices']['Row']
 export type InvoiceItem = Database['public']['Tables']['invoice_items']['Row']
 export type Notification = Database['public']['Tables']['notifications']['Row']
+export type Profile = Database['public']['Tables']['profiles']['Row']
 

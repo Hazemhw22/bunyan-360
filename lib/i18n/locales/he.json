@@ -36,6 +36,7 @@
     "companies": "חברות",
     "areas": "אזורים",
     "completionTracking": "מעקב השלמה",
+    "users": "משתמשים",
     "logout": "התנתק"
   },
   "dashboard": {
@@ -210,6 +211,66 @@
     "serviceUpdated": "שירות עודכן",
     "buildingAdded": "בניין חדש נוסף",
     "invoiceCreated": "חשבונית חדשה נוצרה"
+  },
+  "users": {
+    "title": "ניהול משתמשים",
+    "subtitle": "הצג וניהול כל המשתמשים הרשומים במערכת",
+    "user": "משתמש",
+    "users": "משתמשים",
+    "username": "שם משתמש",
+    "email": "אימייל",
+    "role": "תפקיד",
+    "registrationDate": "תאריך רישום",
+    "systemAdmin": "מנהל מערכת",
+    "noUsers": "אין משתמשים רשומים",
+    "noName": "ללא שם"
+  },
+  "myAccount": {
+    "title": "החשבון שלי",
+    "subtitle": "הצג את פרטי החשבון האישי שלך",
+    "accountInfo": "פרטי חשבון",
+    "email": "אימייל",
+    "role": "תפקיד",
+    "registrationDate": "תאריך רישום",
+    "systemAdmin": "מנהל מערכת",
+    "notFound": "פרטי חשבון לא נמצאו"
+  },
+  "profile": {
+    "title": "פרופיל",
+    "subtitle": "עדכן את פרטי הפרופיל שלך",
+    "profileInfo": "פרטי פרופיל",
+    "lastUpdate": "עדכון אחרון",
+    "username": "שם משתמש",
+    "usernamePlaceholder": "הכנס שם משתמש",
+    "email": "אימייל",
+    "emailCannotChange": "לא ניתן לשנות אימייל",
+    "saveChanges": "שמור שינויים",
+    "saving": "שומר...",
+    "updateSuccess": "עודכן",
+    "updateSuccessMessage": "פרטי הפרופיל עודכנו בהצלחה",
+    "updateError": "שגיאה",
+    "updateErrorMessage": "אירעה שגיאה בעת עדכון הפרופיל",
+    "notFound": "פרטי פרופיל לא נמצאו"
+  },
+  "settings": {
+    "title": "הגדרות",
+    "subtitle": "נהל את הגדרות החשבון וההעדפות שלך",
+    "appearance": "מראה",
+    "appearanceTitle": "ערכת נושא",
+    "darkMode": "מצב כהה",
+    "lightMode": "מצב בהיר",
+    "darkModeActive": "מצב כהה מופעל",
+    "lightModeActive": "מצב בהיר מופעל",
+    "enableDarkMode": "הפעל מצב כהה",
+    "enableLightMode": "הפעל מצב בהיר",
+    "modeChanged": "עודכן",
+    "modeChangedMessage": "ערכת הנושא שונתה ל",
+    "language": "שפה",
+    "languageTitle": "בחר את שפת הממשק המועדפת עליך",
+    "notifications": "התראות",
+    "notificationsTitle": "נהל הגדרות התראות",
+    "emailNotifications": "התראות אימייל",
+    "systemNotifications": "התראות מערכת"
   }
 }
 
