@@ -35,8 +35,9 @@ export default function ProfilePage() {
           .single()
 
         if (error) throw error
-        setProfile(data as Profile)
-        setUsername(data.username || '')
+        const profileData = data as Profile
+        setProfile(profileData)
+        setUsername(profileData?.username || '')
       }
     } catch (error) {
       console.error('Error fetching profile:', error)
